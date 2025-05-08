@@ -72,6 +72,7 @@ defineEmits(['restart', 'next'])
 .stats-display {
   width: 80%;
   position: fixed;
+  z-index: 10000;
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%);

@@ -1,5 +1,8 @@
 <template>
   <div class="vocabulary-container">
+    <div v-if="showOverlay" class="overlay-blur">
+      <div class="overlay-text">{{ overlayText }}</div>
+    </div>
     <nav class="top-nav">
       <div class="nav-section">
         <DictionarySelector v-model:dictionary="selectedDictionary" />
@@ -14,10 +17,13 @@
           v-if="currentWord"
           v-model:phonetic="selectedPhonetic"
         />
+        <button class="theme-toggle" @click="toggleTheme">
+          {{ theme === 'dark' ? '☀️' : '🌙' }}
+        </button>
       </div>
     </nav>
 
-    <main class="typing-area" v-if="currentWord" @keydown="handleKeyDown" tabindex="0" ref="typingArea">
+    <main class="typing-area" v-if="currentWord" @keydown="handleKeyDown" ref="typingArea">
       <div class="word-display">
         <div class="target-word" :class="{ 'error-shake': isError }">
           <span
@@ -72,12 +78,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, onBeforeUnmount, nextTick } from 'vue'
 import { dictionaries } from '../data/lessons'
 import DictionarySelector from '../components/DictionarySelector.vue'
 import ChapterSelector from '../components/ChapterSelector.vue'
 import PhoneticSelector from '../components/PhoneticSelector.vue'
 import StatsDisplay from '../components/StatsDisplay.vue'
+import { RouterView } from 'vue-router'
 
 // 狀態
 const selectedDictionary = ref('')
@@ -93,6 +100,12 @@ const isFinished = ref(false)
 const timer = ref(null)
 const totalInputCount = ref(0)
 const correctInputCount = ref(0)
+const isStarted = ref(false)
+const isPaused = ref(false)
+const pauseTime = ref(0)
+const totalPausedDuration = ref(0)
+const forceUpdate = ref(0)
+let intervalId = null
 
 // 計算屬性
 const currentDictionary = computed(() => 
@@ -109,20 +122,69 @@ const accuracy = computed(() => {
 })
 
 const wpm = computed(() => {
-  if (!startTime.value) return 0
-  const timeElapsed = (Date.now() - startTime.value) / 1000 / 60 // 轉換為分鐘
-  const words = completedCount.value
-  return Math.round(words / timeElapsed)
+  forceUpdate.value
+  if (!startTime.value || !isStarted.value) return 0
+  const seconds = isPaused.value
+    ? (pauseTime.value - startTime.value - totalPausedDuration.value) / 1000
+    : (Date.now() - startTime.value - totalPausedDuration.value) / 1000
+  if (seconds === 0) return 0
+  // 以正確字母數計算 WPM
+  return Math.round((correctInputCount.value / 5 / seconds) * 60)
 })
 
 const timeElapsed = computed(() => {
+  forceUpdate.value
   if (!startTime.value) return 0
-  return Math.floor((Date.now() - startTime.value) / 1000)
+  if (!isStarted.value) return 0
+  if (isPaused.value) return Math.floor((pauseTime.value - startTime.value - totalPausedDuration.value) / 1000)
+  return Math.floor((Date.now() - startTime.value - totalPausedDuration.value) / 1000)
 })
+
+const showOverlay = computed(() => {
+  // 只有選擇完字典和章節才會顯示遮罩
+  if (!currentDictionary.value || !currentChapter.value) return false
+  return !isStarted.value || isPaused.value
+})
+const overlayText = computed(() => {
+  if (!isStarted.value) return '輸入任意按鍵開始'
+  if (isPaused.value) return '輸入任意按鍵繼續'
+  return ''
+})
+
+// 主題切換
+const theme = ref(document.documentElement.getAttribute('data-theme') || 'light')
+const toggleTheme = () => {
+  theme.value = theme.value === 'light' ? 'dark' : 'light'
+  document.documentElement.setAttribute('data-theme', theme.value)
+}
 
 // 方法
 const handleKeyDown = (event) => {
-  if (!currentWord.value || isFinished.value) return
+  // 遮罩狀態下
+  if (showOverlay.value) {
+    if (!isStarted.value) {
+      // 開始
+      isStarted.value = true
+      startTime.value = Date.now()
+      totalPausedDuration.value = 0
+      isPaused.value = false
+    } else if (isPaused.value) {
+      // 繼續
+      isPaused.value = false
+      totalPausedDuration.value += Date.now() - pauseTime.value
+    }
+    event.preventDefault()
+    return
+  }
+  // 非遮罩狀態下，Enter 暫停
+  if (event.key === 'Enter') {
+    isPaused.value = true
+    pauseTime.value = Date.now()
+    event.preventDefault()
+    return
+  }
+  // 僅在已開始、未暫停、未完成時處理打字
+  if (!isStarted.value || isPaused.value || isFinished.value || !currentWord.value) return
 
   if (!startTime.value) {
     startTime.value = Date.now()
@@ -222,10 +284,11 @@ const restart = () => {
   selectedPhonetic.value = 'us'
   totalInputCount.value = 0
   correctInputCount.value = 0
+  isStarted.value = false
+  isPaused.value = false
+  pauseTime.value = 0
+  totalPausedDuration.value = 0
   stopTimer()
-  if (typingArea.value) {
-    typingArea.value.focus()
-  }
 }
 
 const startTimer = () => {
@@ -241,15 +304,38 @@ const stopTimer = () => {
   }
 }
 
-// 監聽章節變化
-watch(selectedChapterIndex, () => {
-  restart()
+const startInterval = () => {
+  if (intervalId) clearInterval(intervalId)
+  intervalId = setInterval(() => {
+    // 只有在已開始且未暫停且未完成時才刷新
+    if (isStarted.value && !isPaused.value && !isFinished.value) {
+      forceUpdate.value++
+    }
+  }, 1000)
+}
+
+const stopInterval = () => {
+  if (intervalId) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
+}
+
+watch([isStarted, isPaused, isFinished], ([started, paused, finished]) => {
+  if (started && !paused && !finished) {
+    startInterval()
+  } else {
+    stopInterval()
+  }
 })
 
 onMounted(() => {
-  if (typingArea.value) {
-    typingArea.value.focus()
-  }
+  window.addEventListener('keydown', handleKeyDown)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleKeyDown)
+  stopInterval()
 })
 </script>
 
@@ -275,7 +361,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 10000;
   border-radius: var(--border-radius);
   margin: 1.5rem auto 0 auto;
   width: 80%;
@@ -391,5 +477,51 @@ onMounted(() => {
 
 .trans-item:last-child {
   margin-bottom: 0;
+}
+
+.overlay-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  backdrop-filter: blur(8px) brightness(1.1);
+  background: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlay-text {
+  font-size: 2rem;
+  color: var(--primary);
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 2rem 3rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.theme-toggle {
+  margin-left: 1.5rem;
+  background: var(--bg-card);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--shadow);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-toggle:hover {
+  background: var(--primary);
+  color: #fff;
 }
 </style> 

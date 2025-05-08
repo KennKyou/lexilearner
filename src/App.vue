@@ -15,9 +15,6 @@ onMounted(() => {
 <template>
   <div :data-theme="theme" class="app-container">
     <RouterView />
-    <button class="theme-toggle" @click="toggleTheme">
-      {{ theme === 'dark' ? '☀️' : '🌙' }}
-    </button>
   </div>
 </template>
 
@@ -65,26 +62,6 @@ body {
 }
 
 .theme-toggle {
-  position: fixed;
-  right: 2rem;
-  bottom: 2rem;
-  z-index: 999;
-  background: var(--bg-card);
-  color: var(--primary);
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  box-shadow: var(--shadow);
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.theme-toggle:hover {
-  background: var(--primary);
-  color: #fff;
+  display: none;
 }
 </style>
