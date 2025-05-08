@@ -107,6 +107,7 @@ import PhoneticSelector from '../components/PhoneticSelector.vue'
 import StatsDisplay from '../components/StatsDisplay.vue'
 import CompletionModal from '../components/CompletionModal.vue'
 import { useStatsStore } from '../stores/counter'
+import { useProgressStore } from '../stores/progress'
 
 const route = useRoute()
 const router = useRouter()
@@ -139,6 +140,7 @@ const currentWordIndex = ref(0)
 const currentWord = computed(() => currentChapter.value?.words[currentWordIndex.value])
 
 const statsStore = useStatsStore()
+const progressStore = useProgressStore()
 
 const accuracy = computed(() => statsStore.accuracy)
 const wpm = computed(() => statsStore.wpm)
@@ -252,6 +254,7 @@ const nextWord = () => {
     currentWordIndex.value++
   } else {
     statsStore.finish()
+    progressStore.completeChapter(dictKey.value, chapterIdx.value)
   }
   userInput.value = ''
 }

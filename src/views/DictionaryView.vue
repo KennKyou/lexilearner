@@ -65,9 +65,11 @@
             v-for="(chapter, idx) in currentDict?.chapters"
             :key="idx"
             class="chapter-btn"
+            :class="{ completed: progressStore.isChapterCompleted(selectedDictKey, idx) }"
             @click="selectChapter(idx)"
           >
             {{ chapter.name }}
+            <span v-if="progressStore.isChapterCompleted(selectedDictKey, idx)" class="completed-icon">✓</span>
           </button>
         </div>
       </div>
@@ -79,12 +81,14 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { dictionaries } from '../data/lessons'
+import { useProgressStore } from '../stores/progress'
 
 const showModal = ref(false)
 const selectedDictKey = ref('')
 const selectedCategory = ref('')
 const selectedTag = ref('')
 const router = useRouter()
+const progressStore = useProgressStore()
 
 // 獲取所有分類
 const categories = computed(() => {
@@ -361,13 +365,27 @@ const selectChapter = (idx) => {
   padding: 0.7rem 1.2rem;
   font-size: 1rem;
   cursor: pointer;
-  /* box-shadow: var(--shadow); */
   transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .chapter-btn:hover {
   background: var(--primary);
   color: #fff;
+}
+
+.chapter-btn.completed {
+  background: var(--primary-light, rgba(var(--primary-rgb), 0.1));
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.completed-icon {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 @media (max-width: 1440px) {
