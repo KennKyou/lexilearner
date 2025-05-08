@@ -2,6 +2,7 @@ import KET from '../dict/KET.json'
 import PET from '../dict/PET.json'
 import Oxford from '../dict/Oxford.json'
 import TOEIC from '../dict/TOEIC.json'
+import JapaneseBasic from '../dict/Japanese_basic.json'
 
 // 將單字按照每章20個進行分組
 const createChapters = (words) => {
@@ -17,7 +18,8 @@ const createChapters = (words) => {
         text: word.name,
         translation: word.trans,
         usphone: word.usphone,
-        ukphone: word.ukphone
+        ukphone: word.ukphone,
+        notation: word.notation
       }))
     })
   }
@@ -58,5 +60,13 @@ export const dictionaries = {
     cate: "English",
     totalWords: TOEIC.length,
     chapters: createChapters(TOEIC)
+  },
+  JapaneseBasic: {
+    name: '日語常見詞',
+    description: '日語常見詞',
+    tag: "Japanese",
+    cate: "Japanese",
+    totalWords: JapaneseBasic.length,
+    chapters: createChapters(JapaneseBasic)
   },
 }

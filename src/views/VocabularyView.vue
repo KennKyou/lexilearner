@@ -21,7 +21,7 @@
       </div>
       <div class="nav-section">
         <PhoneticSelector
-          v-if="currentWord"
+          v-if="currentWord && currentDictionary?.cate === 'English'"
           v-model:phonetic="selectedPhonetic"
         />
         <button class="play-pause-btn" @click="togglePlayPause">
@@ -35,6 +35,9 @@
 
     <main class="typing-area" v-if="currentWord" @keydown="handleKeyDown" ref="typingArea">
       <div class="word-display">
+        <div class="notation" v-if="currentDictionary?.cate === 'Japanese' && currentWord.notation">
+          <span class="notation-text" v-html="formatNotation(currentWord.notation)"></span>
+        </div>
         <div class="target-word" :class="{ 'error-shake': isError }">
           <span
             v-for="(char, index) in currentWord.text"
@@ -52,7 +55,7 @@
             {{ char === ' ' ? '␣' : char }}
           </span>
         </div>
-        <div class="phonetic">
+        <div class="phonetic" v-if="currentDictionary?.cate === 'English'">
           <span class="phonetic-item" v-if="selectedPhonetic === 'uk'">
             <span class="label">BrE:</span>
             <span class="phonetic-text">[{{ currentWord.ukphone }}]</span>
@@ -321,6 +324,23 @@ const togglePlayPause = () => {
   }
 }
 
+const formatNotation = (notation) => {
+  let result = notation
+  // 先處理多個漢字共用一個假名的情況
+  const multiCharRegex = /([一-龯]+)(\([^)]+\))/g
+  result = result.replace(multiCharRegex, (match, chars, reading) => {
+    const readingText = reading.slice(1, -1) // 移除括號
+    return `<ruby>${chars}<rt>${readingText}</rt></ruby>`
+  })
+  
+  // 再處理單個漢字的情況
+  const singleCharRegex = /([一-龯]|[\u3040-\u309F\u30A0-\u30FF])(\([^)]+\))/g
+  return result.replace(singleCharRegex, (match, char, reading) => {
+    const readingText = reading.slice(1, -1) // 移除括號
+    return `<ruby>${char}<rt>${readingText}</rt></ruby>`
+  })
+}
+
 onMounted(() => {
   statsStore.restart()
   window.addEventListener('keydown', handleKeyDown)
@@ -457,9 +477,9 @@ watch(
 }
 
 .phonetic {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--text-secondary);
-  margin: 0.5rem 0;
+  margin: 1rem 0;
   font-family: monospace;
   display: flex;
   gap: 1rem;
@@ -481,11 +501,32 @@ watch(
   color: var(--text-secondary);
 }
 
+.notation {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+}
+
+.notation-text {
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+
+.notation-text ruby {
+  ruby-position: under;
+  ruby-align: center;
+}
+
+.notation-text rt {
+  font-size: 0.8em;
+  color: var(--text-secondary);
+}
+
 .translation {
   font-size: 1.2rem;
   color: var(--text-secondary);
-  margin-top: 1rem;
-  margin-bottom: 1rem;
   text-align: center;
   padding: 0 1rem;
 }
