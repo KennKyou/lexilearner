@@ -87,6 +87,9 @@
       :wpm="statsStore.wpm"
       :accuracy="statsStore.accuracy"
       :time-elapsed="statsStore.timeElapsed"
+      :dict-name="currentDictionary?.name"
+      :chapter-name="currentChapter?.name"
+      :error-words="errorWords"
       @restart="restart"
       @next="nextChapter"
     />
@@ -121,6 +124,7 @@ const isPaused = ref(false)
 const pauseTime = ref(0)
 const totalPausedDuration = ref(0)
 const forceUpdate = ref(0)
+const errorWords = ref([])
 let intervalId = null
 let updateInterval = null
 
@@ -226,6 +230,13 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
+      if (!errorWords.value.some(w => w.text === currentWord.value.text)) {
+        errorWords.value.push({
+          text: currentWord.value.text,
+          phonetic: selectedPhonetic.value === 'uk' ? currentWord.value.ukphone : currentWord.value.usphone,
+          translation: currentWord.value.translation
+        })
+      }
       userInput.value = ''
       isError.value = true
       setTimeout(() => { isError.value = false }, 300)
@@ -256,6 +267,7 @@ const restart = () => {
   currentWordIndex.value = 0
   statsStore.restart()
   selectedPhonetic.value = 'us'
+  errorWords.value = []
 }
 
 const dictKeyLocal = ref(dictKey.value || '')
