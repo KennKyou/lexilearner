@@ -274,7 +274,8 @@ const selectChapter = (idx) => {
   box-shadow: var(--shadow);
   padding: 2.5rem 2rem 2rem 2rem;
   min-width: 420px;
-  max-width: 90vw;
+  width: 960px;
+  max-width: 960px;
   max-height: 80vh;
   overflow-y: auto;
   display: flex;
@@ -286,7 +287,6 @@ const selectChapter = (idx) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
 }
 
 .modal-title {
@@ -312,7 +312,6 @@ const selectChapter = (idx) => {
   color: var(--text-secondary);
   display: flex;
   gap: 2rem;
-  margin-bottom: 1rem;
 }
 
 .chapter-list {
@@ -320,17 +319,49 @@ const selectChapter = (idx) => {
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: flex-start;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--bg);
+}
+
+/* Webkit (Chrome, Safari, Edge) 滾動條樣式 */
+.chapter-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chapter-list::-webkit-scrollbar-track {
+  background: var(--bg);
+  border-radius: 4px;
+}
+
+.chapter-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.chapter-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark, var(--primary));
+}
+
+/* Firefox 滾動條樣式 */
+.chapter-list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--bg);
 }
 
 .chapter-btn {
-  background: var(--bg-card);
+  width: calc((100% - 80px) / 5);
+  background: var(--chapter-card);
   color: var(--text);
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: 10px;
   padding: 0.7rem 1.2rem;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); */
   transition: background 0.2s, color 0.2s;
 }
 
