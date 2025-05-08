@@ -45,6 +45,17 @@
         <!-- <div class="dict-desc">{{ dict.description }}</div> -->
         <div class="dict-tag">{{ dict.tag }}</div>
         <div class="dict-count">{{ dict.totalWords }} 詞</div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div 
+              class="progress-fill"
+              :style="{ width: `${progressStore.getDictProgress(key, dict.chapters.length).percentage}%` }"
+            ></div>
+          </div>
+          <div class="progress-text">
+            {{ progressStore.getDictProgress(key, dict.chapters.length).completed }}/{{ dict.chapters.length }} 章節
+          </div>
+        </div>
       </div>
     </div>
 
@@ -220,7 +231,7 @@ const selectChapter = (idx) => {
   color: var(--text);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  padding: 2rem 2.5rem;
+  padding: 1.5rem;
   min-width: 220px;
   min-height: 120px;
   cursor: pointer;
@@ -257,6 +268,32 @@ const selectChapter = (idx) => {
   font-weight: bold;
   margin-top: 0.5rem;
   color: var(--text-secondary);
+}
+
+.progress-container {
+  margin-top: 0.5rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+  text-align: right;
 }
 
 .modal-overlay {

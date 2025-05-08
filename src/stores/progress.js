@@ -18,6 +18,15 @@ export const useProgressStore = defineStore('progress', () => {
     return completedChapters.value[dictKey]?.includes(chapterIndex) || false
   }
 
+  function getDictProgress(dictKey, totalChapters) {
+    const completed = completedChapters.value[dictKey]?.length || 0
+    return {
+      completed,
+      total: totalChapters,
+      percentage: Math.round((completed / totalChapters) * 100)
+    }
+  }
+
   function saveToLocalStorage() {
     localStorage.setItem('completedChapters', JSON.stringify(completedChapters.value))
   }
@@ -26,6 +35,7 @@ export const useProgressStore = defineStore('progress', () => {
     completedChapters,
     completeChapter,
     isChapterCompleted,
+    getDictProgress,
     saveToLocalStorage
   }
 }) 
