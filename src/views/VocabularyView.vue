@@ -284,14 +284,26 @@ const stopUpdateInterval = () => {
 }
 
 onMounted(() => {
+  statsStore.restart()
   window.addEventListener('keydown', handleKeyDown)
   startUpdateInterval()
 })
 
 onBeforeUnmount(() => {
+  statsStore.finish()
   window.removeEventListener('keydown', handleKeyDown)
   stopUpdateInterval()
 })
+
+watch(
+  [dictKey, chapterIdx],
+  () => {
+    statsStore.restart()
+    userInput.value = ''
+    currentWordIndex.value = 0
+    selectedPhonetic.value = 'us'
+  }
+)
 
 watch(
   [
@@ -334,7 +346,7 @@ watch(
   z-index: 10000;
   border-radius: var(--border-radius);
   width: 80%;
-  /* max-width: 900px; */
+  max-width: 1400px;
 }
 
 .nav-section {

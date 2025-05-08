@@ -79,6 +79,7 @@ defineEmits(['restart', 'next'])
 <style scoped>
 .stats-display {
   width: 80%;
+  max-width: 1400px;
   position: fixed;
   z-index: 10000;
   bottom: 100px;

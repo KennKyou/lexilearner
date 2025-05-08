@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import TypingView from '../views/TypingView.vue'
 import VocabularyView from '../views/VocabularyView.vue'
 import DictionaryView from '../views/DictionaryView.vue'
 
@@ -19,11 +18,6 @@ const router = createRouter({
       path: '/vocabulary/:dict/:chapter',
       name: 'vocabulary',
       component: VocabularyView
-    },
-    {
-      path: '/typing',
-      name: 'typing',
-      component: TypingView
     }
   ]
 })

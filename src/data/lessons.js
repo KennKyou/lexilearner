@@ -1,4 +1,7 @@
 import KET from '../dict/KET.json'
+import PET from '../dict/PET.json'
+import Oxford from '../dict/Oxford.json'
+import TOEIC from '../dict/TOEIC.json'
 
 // 將單字按照每章20個進行分組
 const createChapters = (words) => {
@@ -26,17 +29,34 @@ const createChapters = (words) => {
 export const dictionaries = {
   KET: {
     name: 'KET',
-    description: 'KET 等級單字練習',
+    description: 'Key English Test',
+    tag: "KET",
+    cate: "English",
     totalWords: KET.length,
     chapters: createChapters(KET)
   },
+  PET: {
+    name: 'PET',
+    description: 'Preliminary English Test',
+    tag: "PET",
+    cate: "English",
+    totalWords: PET.length,
+    chapters: createChapters(PET)
+  },
+  Oxford: {
+    name: 'Oxford',
+    description: 'Oxford',
+    tag: "Oxford",
+    cate: "English",
+    totalWords: Oxford.length,
+    chapters: createChapters(Oxford)
+  },
+  TOEIC: {
+    name: 'TOEIC',
+    description: 'TOEIC',
+    tag: "TOEIC",
+    cate: "English",
+    totalWords: TOEIC.length,
+    chapters: createChapters(TOEIC)
+  },
 }
-
-// 為了向後兼容，同時導出 lessons
-export const lessons = {
-  vocabulary: {
-    name: 'KET',
-    description: 'KET',
-    chapters: dictionaries.KET.chapters
-  }
-} 
