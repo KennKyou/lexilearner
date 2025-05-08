@@ -81,6 +81,15 @@
       @restart="restart"
       @next="nextChapter"
     />
+
+    <CompletionModal
+      v-if="statsStore.isFinished"
+      :wpm="statsStore.wpm"
+      :accuracy="statsStore.accuracy"
+      :time-elapsed="statsStore.timeElapsed"
+      @restart="restart"
+      @next="nextChapter"
+    />
   </div>
 </template>
 
@@ -90,6 +99,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { dictionaries } from '../data/lessons'
 import PhoneticSelector from '../components/PhoneticSelector.vue'
 import StatsDisplay from '../components/StatsDisplay.vue'
+import CompletionModal from '../components/CompletionModal.vue'
 import { useStatsStore } from '../stores/counter'
 
 const route = useRoute()
@@ -446,8 +456,9 @@ watch(
 .translation {
   font-size: 1.2rem;
   color: var(--text-secondary);
+  margin-top: 1rem;
   margin-bottom: 1rem;
-  text-align: left;
+  text-align: center;
   padding: 0 1rem;
 }
 
@@ -545,6 +556,7 @@ watch(
   font-size: 1rem;
   border-radius: var(--border-radius);
   border: 1px solid var(--primary);
+  outline: none;
   background: var(--bg-card);
   color: var(--text);
   box-shadow: var(--shadow);

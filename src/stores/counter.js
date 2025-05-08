@@ -22,15 +22,6 @@ export const useStatsStore = defineStore('stats', () => {
   const isFinished = ref(false)
   const currentTime = ref(Date.now())
 
-  // 每秒更新當前時間
-  if (typeof window !== 'undefined') {
-    setInterval(() => {
-      if (isStarted.value && !isPaused.value && !isFinished.value) {
-        currentTime.value = Date.now()
-      }
-    }, 1000)
-  }
-
   const timeElapsed = computed(() => {
     if (!startTime.value || !isStarted.value) return 0
     if (isPaused.value) {
@@ -93,6 +84,12 @@ export const useStatsStore = defineStore('stats', () => {
     currentTime.value = Date.now()
   }
 
+  function update() {
+    if (isStarted.value && !isPaused.value && !isFinished.value) {
+      currentTime.value = Date.now()
+    }
+  }
+
   return {
     startTime,
     isStarted,
@@ -110,6 +107,7 @@ export const useStatsStore = defineStore('stats', () => {
     resume,
     incrementInput,
     finish,
-    restart
+    restart,
+    update
   }
 })

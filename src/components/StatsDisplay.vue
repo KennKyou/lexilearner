@@ -23,22 +23,14 @@
       </div>
     </div>
 
-    <div v-if="statsStore.isFinished" class="result">
-      <h3>練習完成！</h3>
-      <p>WPM：{{ statsStore.wpm }}</p>
-      <p>正確率：{{ statsStore.accuracy }}%</p>
-      <p>時間：{{ statsStore.timeElapsed }}秒</p>
-      <div class="controls">
-        <button @click="$emit('restart')" class="restart-btn">重新開始</button>
-        <button @click="$emit('next')" class="next-btn">下一章</button>
-      </div>
-    </div>
+    
   </div>
 </template>
 
 <script setup>
 import { useStatsStore } from '../stores/counter'
 import { onMounted, onBeforeUnmount } from 'vue'
+
 
 const statsStore = useStatsStore()
 
@@ -111,51 +103,5 @@ defineEmits(['restart', 'next'])
 .stat-item span:last-child {
   font-weight: bold;
   color: var(--primary);
-}
-
-.result {
-  margin-top: 2rem;
-  padding: 1rem;
-  background-color: var(--bg-card);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  text-align: center;
-  color: var(--text);
-  transition: background 0.3s, color 0.3s;
-}
-
-.result h3 {
-  margin-bottom: 1rem;
-  color: var(--primary);
-}
-
-.result p {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-}
-
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.restart-btn,
-.next-btn {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: var(--primary);
-  color: var(--bg-card);
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.restart-btn:hover,
-.next-btn:hover {
-  background-color: var(--primary-dark);
-  color: #fff;
 }
 </style> 

@@ -28,6 +28,7 @@ watch(selectedPhonetic, (newValue) => {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   border: 1px solid var(--primary);
+  outline: none;
   border-radius: var(--border-radius);
   background-color: var(--bg-card);
   color: var(--text);
