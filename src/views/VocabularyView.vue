@@ -24,6 +24,9 @@
           v-if="currentWord"
           v-model:phonetic="selectedPhonetic"
         />
+        <button class="play-pause-btn" @click="togglePlayPause">
+          {{ !statsStore.isStarted ? '▶️' : (statsStore.isPaused ? '▶️' : '⏸️') }}
+        </button>
         <button class="theme-toggle" @click="toggleTheme">
           {{ theme === 'dark' ? '☀️' : '🌙' }}
         </button>
@@ -305,6 +308,16 @@ const stopUpdateInterval = () => {
   }
 }
 
+const togglePlayPause = () => {
+  if (!statsStore.isStarted) {
+    statsStore.start()
+  } else if (statsStore.isPaused) {
+    statsStore.resume()
+  } else {
+    statsStore.pause()
+  }
+}
+
 onMounted(() => {
   statsStore.restart()
   window.addEventListener('keydown', handleKeyDown)
@@ -509,7 +522,6 @@ watch(
 }
 
 .theme-toggle {
-  margin-left: 1.5rem;
   background: var(--bg-card);
   color: var(--primary);
   border: none;
@@ -579,5 +591,26 @@ watch(
   background-repeat: no-repeat;
   background-position: right 0.5rem center;
   background-size: 1em;
+}
+
+.play-pause-btn {
+  background: var(--bg-card);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--shadow);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-pause-btn:hover {
+  background: var(--primary);
+  color: #fff;
 }
 </style> 
