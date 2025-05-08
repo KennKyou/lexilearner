@@ -41,14 +41,4 @@ watch(selectedPhonetic, (newValue) => {
   background-size: 1em;
   transition: background 0.3s, color 0.3s, border 0.3s;
 }
-
-.phonetic-select:hover {
-  border-color: var(--primary-dark);
-}
-
-.phonetic-select:focus {
-  outline: none;
-  border-color: var(--primary-dark);
-  box-shadow: 0 0 0 2px rgba(91, 109, 250, 0.15);
-}
 </style> 

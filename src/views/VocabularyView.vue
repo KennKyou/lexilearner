@@ -5,12 +5,19 @@
     </div>
     <nav class="top-nav">
       <div class="nav-section">
-        <DictionarySelector v-model:dictionary="selectedDictionary" />
-        <ChapterSelector
+        <button class="dict-btn" @click="router.push('/dictionary')">
+          {{ currentDictionary ? currentDictionary.name : '選擇字典' }}
+        </button>
+        <select
           v-if="currentDictionary"
-          :chapters="currentDictionary.chapters"
-          v-model:chapter="selectedChapterIndex"
-        />
+          class="chapter-select"
+          v-model="chapterIdxLocal"
+          @change="onChapterChange"
+        >
+          <option v-for="(chapter, idx) in currentDictionary.chapters" :key="idx" :value="idx">
+            {{ chapter.name }}
+          </option>
+        </select>
       </div>
       <div class="nav-section">
         <PhoneticSelector
@@ -79,16 +86,14 @@
 
 <script setup>
 import { ref, computed, onMounted, watch, onBeforeUnmount, nextTick } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { dictionaries } from '../data/lessons'
-import DictionarySelector from '../components/DictionarySelector.vue'
-import ChapterSelector from '../components/ChapterSelector.vue'
 import PhoneticSelector from '../components/PhoneticSelector.vue'
 import StatsDisplay from '../components/StatsDisplay.vue'
-import { RouterView } from 'vue-router'
 
-// 狀態
-const selectedDictionary = ref('')
-const selectedChapterIndex = ref('')
+const route = useRoute()
+const router = useRouter()
+
 const selectedPhonetic = ref('us')
 const userInput = ref('')
 const completedCount = ref(0)
@@ -107,13 +112,10 @@ const totalPausedDuration = ref(0)
 const forceUpdate = ref(0)
 let intervalId = null
 
-// 計算屬性
-const currentDictionary = computed(() => 
-  selectedDictionary.value ? dictionaries[selectedDictionary.value] : null
-)
-const currentChapter = computed(() => 
-  selectedChapterIndex.value !== '' ? currentDictionary.value?.chapters[selectedChapterIndex.value] : null
-)
+const dictKey = computed(() => route.params.dict)
+const chapterIdx = computed(() => Number(route.params.chapter))
+const currentDictionary = computed(() => dictKey.value ? dictionaries[dictKey.value] : null)
+const currentChapter = computed(() => (chapterIdx.value >= 0 && currentDictionary.value) ? currentDictionary.value.chapters[chapterIdx.value] : null)
 const currentWordIndex = ref(0)
 const currentWord = computed(() => currentChapter.value?.words[currentWordIndex.value])
 const accuracy = computed(() => {
@@ -266,10 +268,10 @@ const nextWord = () => {
 }
 
 const nextChapter = () => {
-  if (selectedChapterIndex.value < currentDictionary.value.chapters.length - 1) {
-    selectedChapterIndex.value++
+  if (chapterIdx.value < currentDictionary.value.chapters.length - 1) {
+    router.push({ params: { dict: dictKey.value, chapter: chapterIdx.value + 1 } })
   } else {
-    selectedChapterIndex.value = 0
+    router.push({ params: { dict: dictKey.value, chapter: 0 } })
   }
   restart()
 }
@@ -329,6 +331,25 @@ watch([isStarted, isPaused, isFinished], ([started, paused, finished]) => {
   }
 })
 
+const dictKeyLocal = ref(dictKey.value || '')
+const chapterIdxLocal = ref(chapterIdx.value || 0)
+
+watch(dictKey, (val) => { dictKeyLocal.value = val || '' })
+watch(chapterIdx, (val) => { chapterIdxLocal.value = val || 0 })
+
+const onDictChange = () => {
+  if (dictKeyLocal.value && currentDictionary.value) {
+    router.push({ name: 'vocabulary', params: { dict: dictKeyLocal.value, chapter: 0 } })
+    restart()
+  }
+}
+const onChapterChange = () => {
+  if (currentDictionary.value) {
+    router.push({ name: 'vocabulary', params: { dict: dictKey.value, chapter: chapterIdxLocal.value } })
+    restart()
+  }
+}
+
 onMounted(() => {
   window.addEventListener('keydown', handleKeyDown)
 })
@@ -358,12 +379,11 @@ onBeforeUnmount(() => {
   align-items: center;
   padding: 0 2rem;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 10000;
   border-radius: var(--border-radius);
-  margin: 1.5rem auto 0 auto;
   width: 80%;
   /* max-width: 900px; */
 }
@@ -523,5 +543,56 @@ onBeforeUnmount(() => {
 .theme-toggle:hover {
   background: var(--primary);
   color: #fff;
+}
+
+.back-btn {
+  margin-right: 1.5rem;
+  background: var(--bg-card);
+  color: var(--primary);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.4rem 1.1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.back-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.dict-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  box-shadow: none;
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+.dict-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+.chapter-select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--primary);
+  background: var(--bg-card);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  min-width: 120px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1em;
 }
 </style> 
