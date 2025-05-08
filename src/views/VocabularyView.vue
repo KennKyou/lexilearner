@@ -62,8 +62,8 @@
       :wpm="wpm"
       :accuracy="accuracy"
       :time-elapsed="timeElapsed"
-      :current-index="currentWordIndex"
-      :total-words="currentChapter.words.length"
+      :total-input="totalInputCount"
+      :correct-input="correctInputCount"
       :is-finished="isFinished"
       @restart="restart"
       @next="nextChapter"
@@ -91,6 +91,8 @@ const isError = ref(false)
 const startTime = ref(null)
 const isFinished = ref(false)
 const timer = ref(null)
+const totalInputCount = ref(0)
+const correctInputCount = ref(0)
 
 // 計算屬性
 const currentDictionary = computed(() => 
@@ -102,8 +104,8 @@ const currentChapter = computed(() =>
 const currentWordIndex = ref(0)
 const currentWord = computed(() => currentChapter.value?.words[currentWordIndex.value])
 const accuracy = computed(() => {
-  if (totalAttempts.value === 0) return 100
-  return Math.round((completedCount.value / totalAttempts.value) * 100)
+  if (totalInputCount.value === 0) return 100
+  return Math.round((correctInputCount.value / totalInputCount.value) * 100)
 })
 
 const wpm = computed(() => {
@@ -133,22 +135,16 @@ const handleKeyDown = (event) => {
     const targetWord = currentWord.value.text
     if (currentInput.length < targetWord.length && targetWord[currentInput.length] === ' ') {
       userInput.value += ' '
-      // 檢查是否完成當前單字
+      totalInputCount.value++
+      correctInputCount.value++
       if (userInput.value === targetWord) {
-        completedCount.value++
-        totalAttempts.value++
-        setTimeout(() => {
-          nextWord()
-        }, 300)
+        setTimeout(() => { nextWord() }, 300)
       }
     } else {
-      // 不該有空格的地方按了空格，顯示錯誤
-      isError.value = true
-      totalAttempts.value++
+      totalInputCount.value++
       userInput.value = ''
-      setTimeout(() => {
-        isError.value = false
-      }, 300)
+      isError.value = true
+      setTimeout(() => { isError.value = false }, 300)
     }
     return
   }
@@ -159,55 +155,39 @@ const handleKeyDown = (event) => {
     const targetWord = currentWord.value.text
     if (currentInput.length < targetWord.length && targetWord[currentInput.length] === '-') {
       userInput.value += '-'
-      // 檢查是否完成當前單字
+      totalInputCount.value++
+      correctInputCount.value++
       if (userInput.value === targetWord) {
-        completedCount.value++
-        totalAttempts.value++
-        setTimeout(() => {
-          nextWord()
-        }, 300)
+        setTimeout(() => { nextWord() }, 300)
       }
     } else {
-      // 不該有連字符的地方按了連字符，顯示錯誤
-      isError.value = true
-      totalAttempts.value++
+      totalInputCount.value++
       userInput.value = ''
-      setTimeout(() => {
-        isError.value = false
-      }, 300)
+      isError.value = true
+      setTimeout(() => { isError.value = false }, 300)
     }
     return
   }
 
   // 處理一般字母和數字
   const key = event.key
-  // 忽略特殊按鍵，但允許空格、連字符、字母和數字
   if (key.length !== 1 || !/^[a-zA-Z0-9]$/.test(key)) return
 
   const currentInput = userInput.value
   const targetWord = currentWord.value.text
-  
+
   if (currentInput.length < targetWord.length) {
-    // 檢查輸入的字符是否正確（包括大小寫和數字）
+    totalInputCount.value++
     if (key === targetWord[currentInput.length]) {
       userInput.value += key
-      
-      // 檢查是否完成當前單字
+      correctInputCount.value++
       if (userInput.value === targetWord) {
-        completedCount.value++
-        totalAttempts.value++
-        setTimeout(() => {
-          nextWord()
-        }, 300)
+        setTimeout(() => { nextWord() }, 300)
       }
     } else {
-      // 打錯字符，顯示錯誤效果
-      isError.value = true
-      totalAttempts.value++
       userInput.value = ''
-      setTimeout(() => {
-        isError.value = false
-      }, 300)
+      isError.value = true
+      setTimeout(() => { isError.value = false }, 300)
     }
   }
 }
@@ -240,6 +220,8 @@ const restart = () => {
   completedCount.value = 0
   totalAttempts.value = 0
   selectedPhonetic.value = 'us'
+  totalInputCount.value = 0
+  correctInputCount.value = 0
   stopTimer()
   if (typingArea.value) {
     typingArea.value.focus()

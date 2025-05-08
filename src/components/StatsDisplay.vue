@@ -2,21 +2,27 @@
   <div class="stats-display">
     <div class="stats">
       <div class="stat-item">
-        <span>WPM：</span>
-        <span>{{ wpm }}</span>
-      </div>
-      <div class="stat-item">
-        <span>正確率：</span>
-        <span>{{ accuracy }}%</span>
-      </div>
-      <div class="stat-item">
         <span>時間：</span>
         <span>{{ timeElapsed }}秒</span>
       </div>
       <div class="stat-item">
-        <span>進度：</span>
-        <span>{{ currentIndex + 1 }} / {{ totalWords }}</span>
+        <span>WPM：</span>
+        <span>{{ wpm }}</span>
       </div>
+      <div class="stat-item">
+        <span>輸入數：</span>
+        <span>{{ totalInput }}</span>
+      </div>
+      <div class="stat-item">
+        <span>正確數：</span>
+        <span>{{ correctInput }}</span>
+      </div>
+      
+      <div class="stat-item">
+        <span>正確率：</span>
+        <span>{{ accuracy }}%</span>
+      </div>
+      
     </div>
 
     <div v-if="isFinished" class="result">
@@ -33,8 +39,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
 const props = defineProps({
   wpm: {
     type: Number,
@@ -48,11 +52,11 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  currentIndex: {
+  totalInput: {
     type: Number,
     required: true
   },
-  totalWords: {
+  correctInput: {
     type: Number,
     required: true
   },
@@ -61,7 +65,6 @@ const props = defineProps({
     default: false
   }
 })
-
 defineEmits(['restart', 'next'])
 </script>
 
