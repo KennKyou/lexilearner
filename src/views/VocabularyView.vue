@@ -90,6 +90,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { dictionaries } from '../data/lessons'
 import PhoneticSelector from '../components/PhoneticSelector.vue'
 import StatsDisplay from '../components/StatsDisplay.vue'
+import { useStatsStore } from '../stores/counter'
 
 const route = useRoute()
 const router = useRouter()
@@ -111,6 +112,7 @@ const pauseTime = ref(0)
 const totalPausedDuration = ref(0)
 const forceUpdate = ref(0)
 let intervalId = null
+let updateInterval = null
 
 const dictKey = computed(() => route.params.dict)
 const chapterIdx = computed(() => Number(route.params.chapter))
@@ -118,38 +120,19 @@ const currentDictionary = computed(() => dictKey.value ? dictionaries[dictKey.va
 const currentChapter = computed(() => (chapterIdx.value >= 0 && currentDictionary.value) ? currentDictionary.value.chapters[chapterIdx.value] : null)
 const currentWordIndex = ref(0)
 const currentWord = computed(() => currentChapter.value?.words[currentWordIndex.value])
-const accuracy = computed(() => {
-  if (totalInputCount.value === 0) return 100
-  return Math.round((correctInputCount.value / totalInputCount.value) * 100)
-})
 
-const wpm = computed(() => {
-  forceUpdate.value
-  if (!startTime.value || !isStarted.value) return 0
-  const seconds = isPaused.value
-    ? (pauseTime.value - startTime.value - totalPausedDuration.value) / 1000
-    : (Date.now() - startTime.value - totalPausedDuration.value) / 1000
-  if (seconds === 0) return 0
-  // 以正確字母數計算 WPM
-  return Math.round((correctInputCount.value / 5 / seconds) * 60)
-})
+const statsStore = useStatsStore()
 
-const timeElapsed = computed(() => {
-  forceUpdate.value
-  if (!startTime.value) return 0
-  if (!isStarted.value) return 0
-  if (isPaused.value) return Math.floor((pauseTime.value - startTime.value - totalPausedDuration.value) / 1000)
-  return Math.floor((Date.now() - startTime.value - totalPausedDuration.value) / 1000)
-})
-
+const accuracy = computed(() => statsStore.accuracy)
+const wpm = computed(() => statsStore.wpm)
+const timeElapsed = computed(() => statsStore.timeElapsed)
 const showOverlay = computed(() => {
-  // 只有選擇完字典和章節才會顯示遮罩
   if (!currentDictionary.value || !currentChapter.value) return false
-  return !isStarted.value || isPaused.value
+  return !statsStore.isStarted || statsStore.isPaused
 })
 const overlayText = computed(() => {
-  if (!isStarted.value) return '輸入任意按鍵開始'
-  if (isPaused.value) return '輸入任意按鍵繼續'
+  if (!statsStore.isStarted) return '輸入任意按鍵開始'
+  if (statsStore.isPaused) return '輸入任意按鍵繼續'
   return ''
 })
 
@@ -162,50 +145,37 @@ const toggleTheme = () => {
 
 // 方法
 const handleKeyDown = (event) => {
-  // 遮罩狀態下
   if (showOverlay.value) {
-    if (!isStarted.value) {
-      // 開始
-      isStarted.value = true
-      startTime.value = Date.now()
-      totalPausedDuration.value = 0
-      isPaused.value = false
-    } else if (isPaused.value) {
-      // 繼續
-      isPaused.value = false
-      totalPausedDuration.value += Date.now() - pauseTime.value
+    if (!statsStore.isStarted) {
+      statsStore.start()
+    } else if (statsStore.isPaused) {
+      statsStore.resume()
     }
     event.preventDefault()
     return
   }
-  // 非遮罩狀態下，Enter 暫停
   if (event.key === 'Enter') {
-    isPaused.value = true
-    pauseTime.value = Date.now()
+    statsStore.pause()
     event.preventDefault()
     return
   }
-  // 僅在已開始、未暫停、未完成時處理打字
-  if (!isStarted.value || isPaused.value || isFinished.value || !currentWord.value) return
+  if (!statsStore.isStarted || statsStore.isPaused || statsStore.isFinished || !currentWord.value) return
 
-  if (!startTime.value) {
-    startTime.value = Date.now()
-    startTimer()
+  if (!statsStore.startTime) {
+    statsStore.start()
   }
 
-  // 處理空格鍵
   if (event.key === ' ') {
     const currentInput = userInput.value
     const targetWord = currentWord.value.text
     if (currentInput.length < targetWord.length && targetWord[currentInput.length] === ' ') {
       userInput.value += ' '
-      totalInputCount.value++
-      correctInputCount.value++
+      statsStore.incrementInput(true)
       if (userInput.value === targetWord) {
         setTimeout(() => { nextWord() }, 300)
       }
     } else {
-      totalInputCount.value++
+      statsStore.incrementInput(false)
       userInput.value = ''
       isError.value = true
       setTimeout(() => { isError.value = false }, 300)
@@ -213,19 +183,17 @@ const handleKeyDown = (event) => {
     return
   }
 
-  // 處理連字符
   if (event.key === '-') {
     const currentInput = userInput.value
     const targetWord = currentWord.value.text
     if (currentInput.length < targetWord.length && targetWord[currentInput.length] === '-') {
       userInput.value += '-'
-      totalInputCount.value++
-      correctInputCount.value++
+      statsStore.incrementInput(true)
       if (userInput.value === targetWord) {
         setTimeout(() => { nextWord() }, 300)
       }
     } else {
-      totalInputCount.value++
+      statsStore.incrementInput(false)
       userInput.value = ''
       isError.value = true
       setTimeout(() => { isError.value = false }, 300)
@@ -233,7 +201,6 @@ const handleKeyDown = (event) => {
     return
   }
 
-  // 處理一般字母和數字
   const key = event.key
   if (key.length !== 1 || !/^[a-zA-Z0-9]$/.test(key)) return
 
@@ -241,14 +208,14 @@ const handleKeyDown = (event) => {
   const targetWord = currentWord.value.text
 
   if (currentInput.length < targetWord.length) {
-    totalInputCount.value++
     if (key === targetWord[currentInput.length]) {
       userInput.value += key
-      correctInputCount.value++
+      statsStore.incrementInput(true)
       if (userInput.value === targetWord) {
         setTimeout(() => { nextWord() }, 300)
       }
     } else {
+      statsStore.incrementInput(false)
       userInput.value = ''
       isError.value = true
       setTimeout(() => { isError.value = false }, 300)
@@ -260,9 +227,7 @@ const nextWord = () => {
   if (currentWordIndex.value < currentChapter.value.words.length - 1) {
     currentWordIndex.value++
   } else {
-    // 完成當前章節
-    isFinished.value = true
-    stopTimer()
+    statsStore.finish()
   }
   userInput.value = ''
 }
@@ -279,57 +244,9 @@ const nextChapter = () => {
 const restart = () => {
   userInput.value = ''
   currentWordIndex.value = 0
-  startTime.value = null
-  isFinished.value = false
-  completedCount.value = 0
-  totalAttempts.value = 0
+  statsStore.restart()
   selectedPhonetic.value = 'us'
-  totalInputCount.value = 0
-  correctInputCount.value = 0
-  isStarted.value = false
-  isPaused.value = false
-  pauseTime.value = 0
-  totalPausedDuration.value = 0
-  stopTimer()
 }
-
-const startTimer = () => {
-  timer.value = setInterval(() => {
-    // 更新時間顯示
-  }, 1000)
-}
-
-const stopTimer = () => {
-  if (timer.value) {
-    clearInterval(timer.value)
-    timer.value = null
-  }
-}
-
-const startInterval = () => {
-  if (intervalId) clearInterval(intervalId)
-  intervalId = setInterval(() => {
-    // 只有在已開始且未暫停且未完成時才刷新
-    if (isStarted.value && !isPaused.value && !isFinished.value) {
-      forceUpdate.value++
-    }
-  }, 1000)
-}
-
-const stopInterval = () => {
-  if (intervalId) {
-    clearInterval(intervalId)
-    intervalId = null
-  }
-}
-
-watch([isStarted, isPaused, isFinished], ([started, paused, finished]) => {
-  if (started && !paused && !finished) {
-    startInterval()
-  } else {
-    stopInterval()
-  }
-})
 
 const dictKeyLocal = ref(dictKey.value || '')
 const chapterIdxLocal = ref(chapterIdx.value || 0)
@@ -340,24 +257,56 @@ watch(chapterIdx, (val) => { chapterIdxLocal.value = val || 0 })
 const onDictChange = () => {
   if (dictKeyLocal.value && currentDictionary.value) {
     router.push({ name: 'vocabulary', params: { dict: dictKeyLocal.value, chapter: 0 } })
-    restart()
+    statsStore.restart()
   }
 }
 const onChapterChange = () => {
   if (currentDictionary.value) {
     router.push({ name: 'vocabulary', params: { dict: dictKey.value, chapter: chapterIdxLocal.value } })
-    restart()
+    statsStore.restart()
+  }
+}
+
+const startUpdateInterval = () => {
+  if (updateInterval) clearInterval(updateInterval)
+  updateInterval = setInterval(() => {
+    if (statsStore.isStarted && !statsStore.isPaused && !statsStore.isFinished) {
+      statsStore.update()
+    }
+  }, 1000)
+}
+
+const stopUpdateInterval = () => {
+  if (updateInterval) {
+    clearInterval(updateInterval)
+    updateInterval = null
   }
 }
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeyDown)
+  startUpdateInterval()
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleKeyDown)
-  stopInterval()
+  stopUpdateInterval()
 })
+
+watch(
+  [
+    () => statsStore.isStarted,
+    () => statsStore.isPaused,
+    () => statsStore.isFinished
+  ],
+  ([started, paused, finished]) => {
+    if (started && !paused && !finished) {
+      startUpdateInterval()
+    } else {
+      stopUpdateInterval()
+    }
+  }
+)
 </script>
 
 <style scoped>

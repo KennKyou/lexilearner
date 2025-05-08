@@ -3,33 +3,31 @@
     <div class="stats">
       <div class="stat-item">
         <span>時間：</span>
-        <span>{{ timeElapsed }}秒</span>
+        <span>{{ statsStore.timeElapsed }}秒</span>
       </div>
       <div class="stat-item">
         <span>WPM：</span>
-        <span>{{ wpm }}</span>
+        <span>{{ statsStore.wpm }}</span>
       </div>
       <div class="stat-item">
         <span>輸入數：</span>
-        <span>{{ totalInput }}</span>
+        <span>{{ statsStore.totalInputCount }}</span>
       </div>
       <div class="stat-item">
         <span>正確數：</span>
-        <span>{{ correctInput }}</span>
+        <span>{{ statsStore.correctInputCount }}</span>
       </div>
-      
       <div class="stat-item">
         <span>正確率：</span>
-        <span>{{ accuracy }}%</span>
+        <span>{{ statsStore.accuracy }}%</span>
       </div>
-      
     </div>
 
-    <div v-if="isFinished" class="result">
+    <div v-if="statsStore.isFinished" class="result">
       <h3>練習完成！</h3>
-      <p>WPM：{{ wpm }}</p>
-      <p>正確率：{{ accuracy }}%</p>
-      <p>時間：{{ timeElapsed }}秒</p>
+      <p>WPM：{{ statsStore.wpm }}</p>
+      <p>正確率：{{ statsStore.accuracy }}%</p>
+      <p>時間：{{ statsStore.timeElapsed }}秒</p>
       <div class="controls">
         <button @click="$emit('restart')" class="restart-btn">重新開始</button>
         <button @click="$emit('next')" class="next-btn">下一章</button>
@@ -39,32 +37,42 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  wpm: {
-    type: Number,
-    required: true
-  },
-  accuracy: {
-    type: Number,
-    required: true
-  },
-  timeElapsed: {
-    type: Number,
-    required: true
-  },
-  totalInput: {
-    type: Number,
-    required: true
-  },
-  correctInput: {
-    type: Number,
-    required: true
-  },
-  isFinished: {
-    type: Boolean,
-    default: false
+import { useStatsStore } from '../stores/counter'
+import { onMounted, onBeforeUnmount } from 'vue'
+
+const statsStore = useStatsStore()
+
+// 新增 interval 相關變數
+let updateInterval = null
+
+// 新增 startUpdateInterval 方法
+const startUpdateInterval = () => {
+  if (updateInterval) clearInterval(updateInterval)
+  updateInterval = setInterval(() => {
+    if (statsStore.isStarted && !statsStore.isPaused && !statsStore.isFinished) {
+      statsStore.update()
+    }
+  }, 1000)
+}
+
+// 新增 stopUpdateInterval 方法
+const stopUpdateInterval = () => {
+  if (updateInterval) {
+    clearInterval(updateInterval)
+    updateInterval = null
   }
+}
+
+// 在 onMounted 中啟動 interval
+onMounted(() => {
+  startUpdateInterval()
 })
+
+// 在 onBeforeUnmount 中清除 interval
+onBeforeUnmount(() => {
+  stopUpdateInterval()
+})
+
 defineEmits(['restart', 'next'])
 </script>
 
