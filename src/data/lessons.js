@@ -69,4 +69,4 @@ export const dictionaries = {
     totalWords: JapaneseBasic.length,
     chapters: createChapters(JapaneseBasic)
   },
-}
+} 
