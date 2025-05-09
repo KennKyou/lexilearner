@@ -2,6 +2,7 @@ import KET from '../dict/KET.json'
 import PET from '../dict/PET.json'
 import Oxford from '../dict/Oxford.json'
 import TOEIC from '../dict/TOEIC.json'
+import SAT from '../dict/SAT.json'
 import JapaneseBasic from '../dict/Japanese_basic.json'
 
 // 將單字按照每章20個進行分組
@@ -60,6 +61,14 @@ export const dictionaries = {
     cate: "English",
     totalWords: TOEIC.length,
     chapters: createChapters(TOEIC)
+  },
+  SAT: {
+    name: 'SAT',
+    description: 'SAT',
+    tag: "SAT",
+    cate: "English",
+    totalWords: SAT.length,
+    chapters: createChapters(SAT)
   },
   JapaneseBasic: {
     name: '日語常見詞',

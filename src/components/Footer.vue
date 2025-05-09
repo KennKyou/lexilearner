@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-section">
-        <a href="https://github.com/yourusername/lexilearner" target="_blank" rel="noreferrer noopener" class="footer-link" title="GitHub">
+        <a href="https://github.com/KennKyou/lexilearner" target="_blank" rel="noreferrer noopener" class="footer-link" title="GitHub">
           <i class="fab fa-github"></i>
         </a>
       </div>
@@ -20,7 +20,7 @@
       </div>
 
       <div class="footer-section">
-        <button type="button" class="footer-link" @click="showDonate = true">@LexiLearner</button>
+        <button type="button" class="footer-link" @click="showDonate = true">@字感練習生</button>
       </div>
     </div>
 
@@ -28,11 +28,10 @@
     <div v-if="showDonate" class="donate-modal" @click="showDonate = false">
       <div class="donate-modal-content" @click.stop>
         <button class="close-btn" @click="showDonate = false">&times;</button>
-        <h3>支持 LexiLearner</h3>
+        <h3>支持「字感練習生」</h3>
         <p>如果你喜歡這個專案，歡迎贊助支持我們的開發！</p>
         <div class="donate-info">
           <p>Buy Me a Coffee：<a href="https://www.buymeacoffee.com/lexilearner" target="_blank">點我前往</a></p>
-          <p>Email：ken@kyoudesu.com</p>
           <!-- 你可以在這裡放 QR code 或其他資訊 -->
         </div>
       </div>
