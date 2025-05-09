@@ -24,6 +24,12 @@
           v-if="currentWord && currentDictionary?.cate === 'English'"
           v-model:phonetic="selectedPhonetic"
         />
+        <button class="stats-btn" @click="router.push('/stats')" title="錯誤統計" aria-label="錯誤統計">
+          <i class="fas fa-chart-bar"></i>
+        </button>
+        <button class="error-book-btn" @click="router.push('/error-book')" title="錯字本" aria-label="錯字本">
+          <i class="fas fa-book"></i>
+        </button>
         <button 
           class="play-pause-btn" 
           @click="togglePlayPause"
@@ -39,9 +45,6 @@
           :aria-label="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
         >
           <i :class="theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
-        </button>
-        <button class="error-book-btn" @click="router.push('/error-book')" title="錯字本" aria-label="錯字本">
-          <i class="fas fa-book"></i>
         </button>
       </div>
     </nav>
@@ -124,6 +127,7 @@ import StatsDisplay from '../components/StatsDisplay.vue'
 import CompletionModal from '../components/CompletionModal.vue'
 import { useStatsStore } from '../stores/counter'
 import { useProgressStore } from '../stores/progress'
+import { useErrorStatsStore } from '../stores/errorStats'
 
 const route = useRoute()
 const router = useRouter()
@@ -157,6 +161,7 @@ const currentWord = computed(() => currentChapter.value?.words[currentWordIndex.
 
 const statsStore = useStatsStore()
 const progressStore = useProgressStore()
+const errorStatsStore = useErrorStatsStore()
 
 const accuracy = computed(() => statsStore.accuracy)
 const wpm = computed(() => statsStore.wpm)
@@ -211,6 +216,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
+      errorStatsStore.recordError('space')
       addToErrorBook()
       userInput.value = ''
       isError.value = true
@@ -230,6 +236,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
+      errorStatsStore.recordError('-')
       addToErrorBook()
       userInput.value = ''
       isError.value = true
@@ -253,6 +260,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
+      errorStatsStore.recordError(key.toLowerCase())
       addToErrorBook()
       userInput.value = ''
       isError.value = true
@@ -706,6 +714,27 @@ watch(
 }
 
 .error-book-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.stats-btn {
+  background: var(--bg-card);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--shadow);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-btn:hover {
   background: var(--primary);
   color: #fff;
 }
