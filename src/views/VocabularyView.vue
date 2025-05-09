@@ -30,6 +30,9 @@
         <button class="theme-toggle" @click="toggleTheme">
           {{ theme === 'dark' ? '☀️' : '🌙' }}
         </button>
+        <button class="error-book-btn" @click="router.push('/error-book')" title="錯字本">
+          <i class="fas fa-book"></i>
+        </button>
       </div>
     </nav>
 
@@ -198,6 +201,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
+      addToErrorBook()
       userInput.value = ''
       isError.value = true
       setTimeout(() => { isError.value = false }, 300)
@@ -216,6 +220,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
+      addToErrorBook()
       userInput.value = ''
       isError.value = true
       setTimeout(() => { isError.value = false }, 300)
@@ -238,18 +243,33 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
-      if (!errorWords.value.some(w => w.text === currentWord.value.text)) {
-        errorWords.value.push({
-          text: currentWord.value.text,
-          phonetic: selectedPhonetic.value === 'uk' ? currentWord.value.ukphone : currentWord.value.usphone,
-          translation: currentWord.value.translation
-        })
-      }
+      addToErrorBook()
       userInput.value = ''
       isError.value = true
       setTimeout(() => { isError.value = false }, 300)
     }
   }
+}
+
+const addToErrorBook = () => {
+  const errorWord = {
+    text: currentWord.value.text,
+    phonetic: selectedPhonetic.value === 'uk' ? currentWord.value.ukphone : currentWord.value.usphone,
+    translation: currentWord.value.translation,
+    errorCount: 1
+  }
+
+  const storedErrorWords = localStorage.getItem('errorWords')
+  let errorWords = storedErrorWords ? JSON.parse(storedErrorWords) : []
+
+  const existingWordIndex = errorWords.findIndex(w => w.text === errorWord.text)
+  if (existingWordIndex !== -1) {
+    errorWords[existingWordIndex].errorCount++
+  } else {
+    errorWords.push(errorWord)
+  }
+
+  localStorage.setItem('errorWords', JSON.stringify(errorWords))
 }
 
 const nextWord = () => {
@@ -654,6 +674,27 @@ watch(
 }
 
 .play-pause-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.error-book-btn {
+  background: var(--bg-card);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--shadow);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-book-btn:hover {
   background: var(--primary);
   color: #fff;
 }
