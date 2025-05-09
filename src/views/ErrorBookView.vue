@@ -32,9 +32,14 @@
               </div>
             </div>
           </div>
-          <div class="error-count">
-            <i class="fas fa-times-circle"></i>
-            <span>{{ word.errorCount }}</span>
+          <div class="card-actions">
+            <div class="error-count">
+              <i class="fas fa-times-circle"></i>
+              <span>{{ word.errorCount }}</span>
+            </div>
+            <button class="delete-btn" @click="deleteWord(index)" title="刪除">
+              <i class="fas fa-trash"></i>
+            </button>
           </div>
         </div>
         <div class="pagination">
@@ -82,6 +87,18 @@ const toggleTheme = () => {
   document.documentElement.setAttribute('data-theme', theme.value)
 }
 
+const deleteWord = (index) => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const actualIndex = start + index
+  errorWords.value.splice(actualIndex, 1)
+  localStorage.setItem('errorWords', JSON.stringify(errorWords.value))
+  
+  // 如果當前頁沒有單字了，且不是第一頁，則回到上一頁
+  if (paginatedWords.value.length === 0 && currentPage.value > 1) {
+    currentPage.value--
+  }
+}
+
 onMounted(() => {
   const storedErrorWords = localStorage.getItem('errorWords')
   if (storedErrorWords) {
@@ -99,6 +116,7 @@ onMounted(() => {
   background-color: var(--bg);
   color: var(--text);
   --nav-height: 60px;
+  --footer: 32px;
 }
 
 .top-nav {
@@ -189,7 +207,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-height: 85vh;
+  max-height: calc(100vh - (var(--nav-height) + 60px) - (var(--footer)));
   overflow-y: auto;
   max-width: 1600px;
   margin-right: auto;
@@ -240,6 +258,12 @@ onMounted(() => {
   line-height: 1.4;
 }
 
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .error-count {
   display: flex;
   align-items: center;
@@ -253,12 +277,32 @@ onMounted(() => {
   font-size: 1.5rem;
 }
 
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  color: #F44336;
+  background: rgba(244, 67, 54, 0.1);
+}
+
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
   background: var(--bg);
+  padding-bottom: 1rem;
 }
 
 .page-btn {
