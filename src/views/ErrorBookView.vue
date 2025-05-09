@@ -8,8 +8,13 @@
         <h2>錯字本</h2>
       </div>
       <div class="nav-section">
-        <button class="theme-toggle" @click="toggleTheme">
-          {{ theme === 'dark' ? '☀️' : '🌙' }}
+        <button 
+          class="theme-toggle" 
+          @click="toggleTheme"
+          :title="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          :aria-label="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+        >
+          <i :class="theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
         </button>
       </div>
     </nav>

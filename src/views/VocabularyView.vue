@@ -24,13 +24,23 @@
           v-if="currentWord && currentDictionary?.cate === 'English'"
           v-model:phonetic="selectedPhonetic"
         />
-        <button class="play-pause-btn" @click="togglePlayPause">
-          {{ !statsStore.isStarted ? '▶️' : (statsStore.isPaused ? '▶️' : '⏸️') }}
+        <button 
+          class="play-pause-btn" 
+          @click="togglePlayPause"
+          :title="!statsStore.isStarted ? '開始' : (statsStore.isPaused ? '繼續' : '暫停')"
+          :aria-label="!statsStore.isStarted ? '開始' : (statsStore.isPaused ? '繼續' : '暫停')"
+        >
+          <i :class="!statsStore.isStarted ? 'fas fa-play' : (statsStore.isPaused ? 'fas fa-play' : 'fas fa-pause')"></i>
         </button>
-        <button class="theme-toggle" @click="toggleTheme">
-          {{ theme === 'dark' ? '☀️' : '🌙' }}
+        <button 
+          class="theme-toggle" 
+          @click="toggleTheme"
+          :title="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          :aria-label="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+        >
+          <i :class="theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
         </button>
-        <button class="error-book-btn" @click="router.push('/error-book')" title="錯字本">
+        <button class="error-book-btn" @click="router.push('/error-book')" title="錯字本" aria-label="錯字本">
           <i class="fas fa-book"></i>
         </button>
       </div>
