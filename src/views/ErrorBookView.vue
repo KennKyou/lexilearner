@@ -20,7 +20,7 @@
         <p>目前還沒有錯誤記錄</p>
       </div>
       <div v-else class="error-words-list">
-        <div v-for="(word, index) in errorWords" :key="index" class="error-word-card">
+        <div v-for="(word, index) in paginatedWords" :key="index" class="error-word-card">
           <div class="word-info">
             <div class="word-text">{{ word.text }}</div>
             <div class="word-translation">
@@ -37,18 +37,45 @@
             <span>{{ word.errorCount }}</span>
           </div>
         </div>
+        <div class="pagination">
+          <button 
+            class="page-btn" 
+            :disabled="currentPage === 1"
+            @click="currentPage--"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span class="page-info">{{ currentPage }}/{{ totalPages }}</span>
+          <button 
+            class="page-btn" 
+            :disabled="currentPage === totalPages"
+            @click="currentPage++"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
       </div>
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const errorWords = ref([])
 const theme = ref(document.documentElement.getAttribute('data-theme') || 'light')
+const currentPage = ref(1)
+const itemsPerPage = 20
+
+const totalPages = computed(() => Math.ceil(errorWords.value.length / itemsPerPage))
+
+const paginatedWords = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return errorWords.value.slice(start, end)
+})
 
 const toggleTheme = () => {
   theme.value = theme.value === 'light' ? 'dark' : 'light'
@@ -224,5 +251,46 @@ onMounted(() => {
 
 .error-count i {
   font-size: 1.5rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg);
+}
+
+.page-btn {
+  background: var(--bg-card);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--shadow);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: #fff;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 1.2rem;
+  color: var(--text);
+  min-width: 60px;
+  text-align: center;
 }
 </style> 
