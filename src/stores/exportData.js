@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useProgressStore } from './progress'
 
 export const useExportDataStore = defineStore('exportData', {
   state: () => ({
@@ -7,11 +8,13 @@ export const useExportDataStore = defineStore('exportData', {
 
   actions: {
     exportAllData() {
+      const progressStore = useProgressStore()
+      
       const data = {
-        progress: JSON.parse(localStorage.getItem('progress') || '{}'),
+        progress: progressStore.completedChapters,
         errorWords: JSON.parse(localStorage.getItem('errorWords') || '[]'),
         keyErrors: JSON.parse(localStorage.getItem('keyErrors') || '{}'),
-        completedChapters: JSON.parse(localStorage.getItem('completedChapters') || '{}'),
+        completedChapters: progressStore.completedChapters,
         theme: localStorage.getItem('theme') || 'light',
         exportDate: new Date().toISOString()
       }
@@ -46,6 +49,10 @@ export const useExportDataStore = defineStore('exportData', {
             localStorage.setItem('keyErrors', JSON.stringify(data.keyErrors))
             localStorage.setItem('completedChapters', JSON.stringify(data.completedChapters))
             localStorage.setItem('theme', data.theme)
+            
+            // 更新 progress store
+            const progressStore = useProgressStore()
+            progressStore.completedChapters = data.completedChapters
             
             // 更新主題
             document.documentElement.setAttribute('data-theme', data.theme)
