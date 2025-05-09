@@ -256,7 +256,8 @@ const addToErrorBook = () => {
     text: currentWord.value.text,
     phonetic: selectedPhonetic.value === 'uk' ? currentWord.value.ukphone : currentWord.value.usphone,
     translation: currentWord.value.translation,
-    errorCount: 1
+    errorCount: 1,
+    dictName: currentDictionary.value.name
   }
 
   const storedErrorWords = localStorage.getItem('errorWords')

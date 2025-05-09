@@ -31,6 +31,10 @@
                 {{ word.translation }}
               </div>
             </div>
+            <div class="word-source">
+              <i class="fas fa-book"></i>
+              <span>{{ word.dictName }}</span>
+            </div>
           </div>
           <div class="card-actions">
             <div class="error-count">
@@ -336,5 +340,18 @@ onMounted(() => {
   color: var(--text);
   min-width: 60px;
   text-align: center;
+}
+
+.word-source {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.word-source i {
+  font-size: 0.9rem;
 }
 </style> 
