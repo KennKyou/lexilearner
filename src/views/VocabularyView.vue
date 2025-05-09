@@ -216,7 +216,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
-      errorStatsStore.recordError('space')
+      errorStatsStore.recordError(targetWord[currentInput.length])
       addToErrorBook()
       userInput.value = ''
       isError.value = true
@@ -236,7 +236,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
-      errorStatsStore.recordError('-')
+      errorStatsStore.recordError(targetWord[currentInput.length])
       addToErrorBook()
       userInput.value = ''
       isError.value = true
@@ -260,7 +260,7 @@ const handleKeyDown = (event) => {
       }
     } else {
       statsStore.incrementInput(false)
-      errorStatsStore.recordError(key.toLowerCase())
+      errorStatsStore.recordError(targetWord[currentInput.length])
       addToErrorBook()
       userInput.value = ''
       isError.value = true
