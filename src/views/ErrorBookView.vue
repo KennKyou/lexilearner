@@ -10,11 +10,11 @@
       <div class="nav-section">
         <button 
           class="theme-toggle" 
-          @click="toggleTheme"
-          :title="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
-          :aria-label="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          @click="themeStore.toggleTheme"
+          :title="themeStore.theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          :aria-label="themeStore.theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
         >
-          <i :class="theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
+          <i :class="themeStore.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
         </button>
       </div>
     </nav>
@@ -76,10 +76,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useThemeStore } from '../stores/theme'
 
 const router = useRouter()
 const errorWords = ref([])
-const theme = ref(document.documentElement.getAttribute('data-theme') || 'light')
+const themeStore = useThemeStore()
 const currentPage = ref(1)
 const itemsPerPage = 20
 
@@ -90,11 +91,6 @@ const paginatedWords = computed(() => {
   const end = start + itemsPerPage
   return errorWords.value.slice(start, end)
 })
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-theme', theme.value)
-}
 
 const deleteWord = (index) => {
   const start = (currentPage.value - 1) * itemsPerPage

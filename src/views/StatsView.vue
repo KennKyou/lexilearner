@@ -10,11 +10,11 @@
       <div class="nav-section">
         <button 
           class="theme-toggle" 
-          @click="toggleTheme"
-          :title="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
-          :aria-label="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          @click="themeStore.toggleTheme"
+          :title="themeStore.theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          :aria-label="themeStore.theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
         >
-          <i :class="theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
+          <i :class="themeStore.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
         </button>
       </div>
     </nav>
@@ -79,10 +79,11 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useErrorStatsStore } from '../stores/errorStats'
+import { useThemeStore } from '../stores/theme'
 
 const router = useRouter()
 const errorStatsStore = useErrorStatsStore()
-const theme = ref(document.documentElement.getAttribute('data-theme') || 'light')
+const themeStore = useThemeStore()
 
 const totalErrors = computed(() => {
   return Object.values(errorStatsStore.keyErrors).reduce((sum, count) => sum + count, 0)
@@ -104,11 +105,6 @@ const getKeyStyle = (key) => {
     backgroundColor: `rgba(${r}, ${g}, ${b}, ${opacity})`,
     color: percentage > 0.5 ? '#fff' : 'var(--text)' // 當錯誤率超過 50% 時，文字改為白色
   }
-}
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-theme', theme.value)
 }
 
 const handleReset = () => {

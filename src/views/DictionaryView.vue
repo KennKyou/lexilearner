@@ -403,7 +403,7 @@ const handleCategoryChange = (category) => {
   background: var(--chapter-card);
   color: var(--text);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--border-radius-10);
   padding: 0.7rem 1.2rem;
   font-size: 1rem;
   cursor: pointer;

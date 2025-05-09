@@ -30,6 +30,9 @@
         <button class="error-book-btn" @click="router.push('/error-book')" title="錯字本" aria-label="錯字本">
           <i class="fas fa-book"></i>
         </button>
+        <button class="settings-btn" @click="router.push('/settings')" title="設定" aria-label="設定">
+          <i class="fas fa-cog"></i>
+        </button>
         <button 
           class="play-pause-btn" 
           @click="togglePlayPause"
@@ -40,11 +43,11 @@
         </button>
         <button 
           class="theme-toggle" 
-          @click="toggleTheme"
-          :title="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
-          :aria-label="theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          @click="themeStore.toggleTheme"
+          :title="themeStore.theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
+          :aria-label="themeStore.theme === 'dark' ? '切換至淺色主題' : '切換至深色主題'"
         >
-          <i :class="theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
+          <i :class="themeStore.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'"></i>
         </button>
       </div>
     </nav>
@@ -128,6 +131,7 @@ import CompletionModal from '../components/CompletionModal.vue'
 import { useStatsStore } from '../stores/counter'
 import { useProgressStore } from '../stores/progress'
 import { useErrorStatsStore } from '../stores/errorStats'
+import { useThemeStore } from '../stores/theme'
 
 const route = useRoute()
 const router = useRouter()
@@ -162,6 +166,7 @@ const currentWord = computed(() => currentChapter.value?.words[currentWordIndex.
 const statsStore = useStatsStore()
 const progressStore = useProgressStore()
 const errorStatsStore = useErrorStatsStore()
+const themeStore = useThemeStore()
 
 const accuracy = computed(() => statsStore.accuracy)
 const wpm = computed(() => statsStore.wpm)
@@ -175,13 +180,6 @@ const overlayText = computed(() => {
   if (statsStore.isPaused) return '輸入任意按鍵繼續'
   return ''
 })
-
-// 主題切換
-const theme = ref(document.documentElement.getAttribute('data-theme') || 'light')
-const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-theme', theme.value)
-}
 
 // 方法
 const handleKeyDown = (event) => {
@@ -645,7 +643,7 @@ watch(
 .dict-btn {
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  border-radius: 10px;
+  border-radius: var(--border-radius-10);
   border: none;
   box-shadow: none;
   background: var(--bg-card);
@@ -735,6 +733,27 @@ watch(
 }
 
 .stats-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.settings-btn {
+  background: var(--bg-card);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--shadow);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-btn:hover {
   background: var(--primary);
   color: #fff;
 }

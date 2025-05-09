@@ -1,20 +1,18 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import Footer from './components/Footer.vue'
+import { useThemeStore } from './stores/theme'
 
-const theme = ref('light')
-const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-theme', theme.value)
-}
+const themeStore = useThemeStore()
+
 onMounted(() => {
-  document.documentElement.setAttribute('data-theme', theme.value)
+  themeStore.initTheme()
 })
 </script>
 
 <template>
-  <div :data-theme="theme" class="app-container">
+  <div :data-theme="themeStore.theme" class="app-container">
     <RouterView />
     <Footer />
   </div>
@@ -31,6 +29,7 @@ onMounted(() => {
   --text-secondary: #888;
   --shadow: 0 8px 32px 0 rgba(60, 60, 120, 0.10);
   --border-radius: 18px;
+  --border-radius-10: 10px;
 }
 [data-theme='dark'] {
   --primary: #8faaff;
