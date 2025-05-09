@@ -23,7 +23,7 @@
       <div class="settings-section">
         <h3>資料備份</h3>
         <div class="backup-description">
-          <p>本應用程式的學習資料（包含學習進度、錯字本、錯誤統計和主題設定）是儲存在您的瀏覽器本地儲存空間中。為了確保您的學習記錄不會因為以下情況而遺失：</p>
+          <p>本應用程式的學習資料（包含學習進度、錯字本、統計和主題設定）是儲存在您的瀏覽器本地儲存空間中。為了確保您的學習記錄不會因為以下情況而遺失：</p>
           <ul>
             <li>清除瀏覽器快取或資料</li>
             <li>更換瀏覽器或設備</li>
@@ -39,7 +39,7 @@
         <div class="backup-section">
           <div class="section-description">
             <h4>匯出資料</h4>
-            <p>將您的學習進度、錯字本、錯誤統計和主題設定匯出為檔案。當您需要更換瀏覽器或設備時，可以使用此功能保存您的學習記錄。</p>
+            <p>將您的學習進度、錯字本、統計和主題設定匯出為檔案。當您需要更換瀏覽器或設備時，可以使用此功能保存您的學習記錄。</p>
           </div>
           <button class="export-btn" @click="handleExport">
             <i class="fas fa-upload"></i>
@@ -131,6 +131,7 @@ const handleImport = async (event) => {
   background-color: var(--bg);
   color: var(--text);
   --nav-height: 60px;
+  --footer: 32px;
 }
 
 .top-nav {
@@ -202,10 +203,18 @@ const handleImport = async (event) => {
 .settings-content {
   margin-top: calc(var(--nav-height) + 60px);
   padding: 0 2rem;
+  max-height: calc(100vh - (var(--nav-height) + 60px) - (var(--footer)));
+  overflow-y: auto;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.settings-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .settings-section {
