@@ -7,7 +7,7 @@
         :key="category"
         class="category-btn"
         :class="{ active: selectedCategory === category }"
-        @click="selectedCategory = category"
+        @click="handleCategoryChange(category)"
       >
         {{ category }}
       </button>
@@ -150,6 +150,11 @@ const currentDict = computed(() => dictionaries[selectedDictKey.value])
 const selectChapter = (idx) => {
   showModal.value = false
   router.push({ name: 'vocabulary', params: { dict: selectedDictKey.value, chapter: idx } })
+}
+
+const handleCategoryChange = (category) => {
+  selectedCategory.value = category
+  selectedTag.value = ''
 }
 </script>
 
