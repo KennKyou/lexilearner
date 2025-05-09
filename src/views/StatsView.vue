@@ -5,7 +5,7 @@
         <button class="back-btn" @click="router.push('/')">
           <i class="fas fa-arrow-left"></i>
         </button>
-        <h2>錯誤統計</h2>
+        <h2>統計</h2>
       </div>
       <div class="nav-section">
         <button 

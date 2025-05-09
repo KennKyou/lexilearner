@@ -24,7 +24,7 @@
           v-if="currentWord && currentDictionary?.cate === 'English'"
           v-model:phonetic="selectedPhonetic"
         />
-        <button class="stats-btn" @click="router.push('/stats')" title="錯誤統計" aria-label="錯誤統計">
+        <button class="stats-btn" @click="router.push('/stats')" title="統計" aria-label="統計">
           <i class="fas fa-chart-bar"></i>
         </button>
         <button class="error-book-btn" @click="router.push('/error-book')" title="錯字本" aria-label="錯字本">
