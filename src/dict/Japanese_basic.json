@@ -37,7 +37,7 @@
     {
         "name": "sumimasen", 
         "trans": [
-            "对不起/对不起"
+            "對不起"
         ], 
         "notation": "すみません"
     }, 
@@ -65,7 +65,7 @@
     {
         "name": "watashi", 
         "trans": [
-            "我/我"
+            "我"
         ], 
         "notation": "わたし"
     }, 
@@ -79,7 +79,7 @@
     {
         "name": "okaasan", 
         "trans": [
-            "妈妈"
+            "媽媽"
         ], 
         "notation": "お母(かあ)さん"
     }, 
@@ -93,7 +93,7 @@
     {
         "name": "ojiisan", 
         "trans": [
-            "爷爷"
+            "爺爺"
         ], 
         "notation": "お爺(じい)さん"
     }, 
@@ -401,21 +401,21 @@
     {
         "name": "tanoshii", 
         "trans": [
-            "快乐"
+            "快樂"
         ], 
         "notation": "楽(たの)しい"
     }, 
     {
         "name": "kanashii", 
         "trans": [
-            "伤心"
+            "傷心"
         ], 
         "notation": "悲(かな)しい"
     }, 
     {
         "name": "takai", 
         "trans": [
-            "高/贵"
+            "高/貴"
         ], 
         "notation": "高(たか)い"
     }, 
@@ -478,7 +478,7 @@
     {
         "name": "shoppai", 
         "trans": [
-            "咸"
+            "鹹"
         ], 
         "notation": "塩(しょ)っぱい"
     }, 
@@ -499,21 +499,21 @@
     {
         "name": "tsurai", 
         "trans": [
-            "辣/辣"
+            "辣"
         ], 
         "notation": "辛(つら)い"
     }, 
     {
         "name": "atsui", 
         "trans": [
-            "热"
+            "熱"
         ], 
         "notation": "熱(あつ)い"
     }, 
     {
         "name": "atatakai", 
         "trans": [
-            "温暖"
+            "溫暖"
         ], 
         "notation": "暖(あたた)かい"
     }, 
@@ -555,28 +555,28 @@
     {
         "name": "kiku", 
         "trans": [
-            "听"
+            "聽"
         ], 
         "notation": "聞(き)く"
     }, 
     {
         "name": "hanasu", 
         "trans": [
-            "说话/说话"
+            "說話"
         ], 
         "notation": "話(はな)す"
     }, 
     {
         "name": "iu", 
         "trans": [
-            "要说"
+            "要說"
         ], 
         "notation": "言(い)う"
     }, 
     {
         "name": "kaku", 
         "trans": [
-            "写"
+            "寫"
         ], 
         "notation": "書(か)く"
     }, 
@@ -604,7 +604,7 @@
     {
         "name": "hashiru", 
         "trans": [
-            "运行"
+            "跑步"
         ], 
         "notation": "走(はし)る"
     }, 
@@ -632,14 +632,14 @@
     {
         "name": "nomimono", 
         "trans": [
-            "饮料"
+            "飲料"
         ], 
         "notation": "飲(の)み物(もの)"
     }, 
     {
         "name": "gohan", 
         "trans": [
-            "米饭/餐"
+            "米飯/餐"
         ], 
         "notation": "ご飯(はん)"
     }, 
@@ -653,7 +653,7 @@
     {
         "name": "oyu", 
         "trans": [
-            "热水"
+            "熱水"
         ], 
         "notation": "お湯(ゆ)"
     }, 
@@ -674,28 +674,28 @@
     {
         "name": "sakana", 
         "trans": [
-            "鱼"
+            "魚"
         ], 
         "notation": "魚(さかな)"
     }, 
     {
         "name": "raamen", 
         "trans": [
-            "拉面"
+            "拉麵"
         ], 
         "notation": "ラーメン"
     }, 
     {
         "name": "sushi", 
         "trans": [
-            "寿司"
+            "壽司"
         ], 
         "notation": "寿司(すし)"
     }, 
     {
         "name": "onigiri", 
         "trans": [
-            "饭团"
+            "飯糰"
         ], 
         "notation": "おにぎり"
     }

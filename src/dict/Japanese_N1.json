@@ -2,7 +2,7 @@
     {
         "name": "koukyou",
         "trans": [
-            "条件繁华，经济健康"
+            "繁榮"
         ],
         "notation": "好況(こうきょう)"
     },
@@ -16,14 +16,14 @@
     {
         "name": "akirame",
         "trans": [
-            "辞职、接纳、安慰"
+            "辭職、接納、安慰"
         ],
         "notation": "諦(あきら)め"
     },
     {
         "name": "yuu",
         "trans": [
-            "温柔、深情"
+            "溫柔、深情"
         ],
         "notation": "優(ゆう)"
     },
@@ -37,35 +37,35 @@
     {
         "name": "saishuu",
         "trans": [
-            "收集，收集"
+            "收集"
         ],
         "notation": "採集(さいしゅう)"
     },
     {
         "name": "funsou",
         "trans": [
-            "争执、麻烦、纷争"
+            "爭執、麻煩、紛爭"
         ],
         "notation": "紛争(ふんそう)"
     },
     {
         "name": "koushou",
         "trans": [
-            "高贵、精致、先进"
+            "高貴、精緻、先進"
         ],
         "notation": "高尚(こうしょう)"
     },
     {
         "name": "douyara",
         "trans": [
-            "看起来，不知何故"
+            "看起來，不知何故"
         ],
         "notation": "どうやら"
     },
     {
         "name": "kaku",
         "trans": [
-            "细胞核、内核"
+            "細胞核、内核"
         ],
         "notation": "核(かく)"
     },
@@ -79,189 +79,189 @@
     {
         "name": "kanaeru",
         "trans": [
-            "授予（请求愿望）"
+            "授予（請求希望）、回答（祈禱）、滿足（條件）"
         ],
         "notation": "叶(かな)える"
     },
     {
         "name": "muki",
         "trans": [
-            "方向、情况、曝光、方面、适用性"
+            "方向、情況、曝光、方面、適用性"
         ],
         "notation": "向(む)き"
     },
     {
         "name": "sokubaku",
         "trans": [
-            "束缚， 束缚， 限制， 禁闭， 束缚"
+            "束縛"
         ],
         "notation": "束縛(そくばく)"
     },
     {
         "name": "tamashii",
         "trans": [
-            "灵魂，精神"
+            "靈魂，精神"
         ],
         "notation": "魂(たましい)"
     },
     {
         "name": "sokumen",
         "trans": [
-            "侧， 侧， 侧光， 侧光， 侧"
+            "側面"
         ],
         "notation": "側面(そくめん)"
     },
     {
         "name": "ichibu",
         "trans": [
-            "1. 一份文件副本， 2.一部分，部分，一些"
+            "部分、一些"
         ],
         "notation": "一部(いちぶ)"
     },
     {
         "name": "shussha",
         "trans": [
-            "到达（在一个国家/地区工作等）"
+            "到達（在一個國家、地區工作）"
         ],
         "notation": "出社(しゅっしゃ)"
     },
     {
         "name": "ichimazu",
         "trans": [
-            "对于现在，一次，在大纲中"
+            "目前、一次"
         ],
         "notation": "一(いち)まず"
     },
     {
         "name": "katakoto",
         "trans": [
-            "一个零星的，像婴儿一样说话，说话停滞不前"
+            "不完整的話"
         ],
         "notation": "片言(かたこと)"
     },
     {
         "name": "teate",
         "trans": [
-            "津贴、补偿、治疗、医疗"
+            "準備、報酬、津貼、治療"
         ],
         "notation": "手当(てあ)て"
     },
     {
         "name": "jodoushi",
         "trans": [
-            "助动词"
+            "助動詞"
         ],
         "notation": "助動詞(じょどうし)"
     },
     {
         "name": "koujutsu",
         "trans": [
-            "口头陈述"
+            "口頭陳述"
         ],
         "notation": "口述(こうじゅつ)"
     },
     {
         "name": "munashii",
         "trans": [
-            "空虚的、徒劳的、虚妄的、空虚的、空虚的、无效的、死气沉沉的"
+            "空虛的、徒勞的、無效的、死氣沉沉的"
         ],
         "notation": "空(むな)しい"
     },
     {
         "name": "iron",
         "trans": [
-            "不同意见、异议"
+            "不同意見、異議"
         ],
         "notation": "異論(いろん)"
     },
     {
         "name": "akireru",
         "trans": [
-            "惊讶，震惊"
+            "驚訝，震驚"
         ],
         "notation": "呆(あき)れる"
     },
     {
         "name": "tanin",
         "trans": [
-            "另一个人，无关的人，局外人，陌生人"
+            "局外人、陌生人"
         ],
         "notation": "他人(たにん)"
     },
     {
         "name": "yurumi",
         "trans": [
-            "松弛、松弛、沉闷、失望"
+            "鬆弛、沉悶、失望"
         ],
         "notation": "弛(ゆる)み"
     },
     {
         "name": "yasuppoi",
         "trans": [
-            "廉价、俗气、微不足道"
+            "廉價、俗氣、微不足道"
         ],
         "notation": "安(やす)っぽい"
     },
     {
         "name": "chuusuu",
         "trans": [
-            "中心， 支点， 中流砥柱， 核心， 骨干， 中心人物， 支柱， 关键人物"
+            "中心、支點、支柱、中心人物、關鍵人物"
         ],
         "notation": "中枢(ちゅうすう)"
     },
     {
         "name": "henkan",
         "trans": [
-            "返回、恢复"
+            "返回、恢復"
         ],
         "notation": "返還(へんかん)"
     },
     {
         "name": "shuzai",
         "trans": [
-            "选择主题，收集数据"
+            "選擇主題、收集資料"
         ],
         "notation": "取材(しゅざい)"
     },
     {
         "name": "konketsu",
         "trans": [
-            "混血儿，混血儿"
+            "混血兒"
         ],
         "notation": "混血(こんけつ)"
     },
     {
         "name": "hougaku",
         "trans": [
-            "法律、法理学"
+            "法律、法學"
         ],
         "notation": "法学(ほうがく)"
     },
     {
         "name": "shiito",
         "trans": [
-            "座椅， 片材"
+            "座椅、片材"
         ],
         "notation": "シート"
     },
     {
         "name": "kijitsu",
         "trans": [
-            "固定日期、结算日期"
+            "固定日期、結算日期"
         ],
         "notation": "期日(きじつ)"
     },
     {
         "name": "tomeru",
         "trans": [
-            "停止，停止，结束"
+            "停止、結束"
         ],
         "notation": "留(と)める"
     },
     {
         "name": "hantei",
         "trans": [
-            "判决， 决定， 裁决， 判决"
+            "決定、裁決、判決"
         ],
         "notation": "判定(はんてい)"
     },
@@ -275,252 +275,252 @@
     {
         "name": "kyouguu",
         "trans": [
-            "环境、环境"
+            "環境"
         ],
         "notation": "境遇(きょうぐう)"
     },
     {
         "name": "shiwa",
         "trans": [
-            "皱纹、折痕"
+            "皺紋、摺痕"
         ],
         "notation": "皺(しわ)"
     },
     {
         "name": "nan",
         "trans": [
-            "困难、艰辛、缺陷"
+            "困難、艱辛、缺陷"
         ],
         "notation": "難(なん)"
     },
     {
         "name": "kureen",
         "trans": [
-            "起重机"
+            "起重機"
         ],
         "notation": "クレーン"
     },
     {
         "name": "atsuraeru",
         "trans": [
-            "下订单，下订单"
+            "下訂單"
         ],
         "notation": "誂(あつら)える"
     },
     {
         "name": "suiri",
         "trans": [
-            "推理、推理、悬疑或侦探类型（电影小说等）"
+            "推理、懸疑或偵探類型（電影小說等）"
         ],
         "notation": "推理(すいり)"
     },
     {
         "name": "ninau",
         "trans": [
-            "扛在肩上，扛着（担子），扛着（枪）"
+            "扛著"
         ],
         "notation": "担(にな)う"
     },
     {
         "name": "jouka",
         "trans": [
-            "高与低、上与下、卸货与装货、赞美与责备"
+            "高與低、上與下、裝貨與卸貨、讚美與責備"
         ],
         "notation": "上下(じょうか)"
     },
     {
         "name": "tsujitsuma",
         "trans": [
-            "连贯性、一致性"
+            "連貫性、一致性"
         ],
         "notation": "辻褄(つじつま)"
     },
     {
         "name": "misupurinto",
         "trans": [
-            "错字"
+            "錯字"
         ],
         "notation": "ミスプリント"
     },
     {
         "name": "kei",
         "trans": [
-            "刑罚， 判刑， 刑罚"
+            "刑罰"
         ],
         "notation": "刑(けい)"
     },
     {
         "name": "chisei",
         "trans": [
-            "情报"
+            "情報"
         ],
         "notation": "知性(ちせい)"
     },
     {
         "name": "in",
         "trans": [
-            "成员"
+            "成員"
         ],
         "notation": "員(いん)"
     },
     {
         "name": "yuragu",
         "trans": [
-            "摇摆，摇摆，摇晃，颤抖"
+            "搖擺、搖晃、顫抖"
         ],
         "notation": "揺(ゆ)らぐ"
     },
     {
         "name": "jiku",
         "trans": [
-            "轴、阀杆、轴、轴"
+            "軸"
         ],
         "notation": "軸(じく)"
     },
     {
         "name": "kakitoru",
         "trans": [
-            "写下来，听写，做笔记"
+            "寫下來、做筆記"
         ],
         "notation": "書(か)き取(と)る"
     },
     {
         "name": "mugon",
         "trans": [
-            "沉默"
+            "沈默"
         ],
         "notation": "無言(むごん)"
     },
     {
         "name": "ojamashimasu",
         "trans": [
-            "对不起，打扰（打断）你"
+            "對不起，打擾（打斷）你"
         ],
         "notation": "お邪魔(じゃま)します"
     },
     {
         "name": "oubo",
         "trans": [
-            "订阅、应用程序"
+            "應徵"
         ],
         "notation": "応募(おうぼ)"
     },
     {
         "name": "marukkiri",
         "trans": [
-            "完全，完美，就像"
+            "完全地、就像"
         ],
         "notation": "丸(まる)っきり"
     },
     {
         "name": "kaihou",
         "trans": [
-            "护理，照顾"
+            "護理、照顧"
         ],
         "notation": "介抱(かいほう)"
     },
     {
         "name": "tonda",
         "trans": [
-            "可怕的，可怕的，严肃的，荒谬的，绝对不是"
+            "可怕的、嚴肅的、荒謬的、絕對不是"
         ],
         "notation": "とんだ"
     },
     {
         "name": "izure",
         "trans": [
-            "好吧，现在，让我看看，哪个（三个或更多）"
+            "哪個、哪裡"
         ],
         "notation": "何(いず)れ"
     },
     {
         "name": "surakkusu",
         "trans": [
-            "裤子"
+            "褲子"
         ],
         "notation": "スラックス"
     },
     {
         "name": "kanbu",
         "trans": [
-            "管理层、（执行）员工、领导"
+            "管理層"
         ],
         "notation": "幹部(かんぶ)"
     },
     {
         "name": "sousaku",
         "trans": [
-            "搜索（特别是寻找某人或某物丢失）、调查"
+            "搜索、調查"
         ],
         "notation": "捜索(そうさく)"
     },
     {
         "name": "kyuubou",
         "trans": [
-            "贫困"
+            "貧困"
         ],
         "notation": "窮乏(きゅうぼう)"
     },
     {
         "name": "seijun",
         "trans": [
-            "纯洁、纯真"
+            "純潔、純真"
         ],
         "notation": "清純(せいじゅん)"
     },
     {
         "name": "ojiisan",
         "trans": [
-            "爷爷，男性老年人"
+            "爺爺、男性老年人"
         ],
         "notation": "お祖父(じい)さん"
     },
     {
         "name": "kotozute",
         "trans": [
-            "声明，道听途说"
+            "傳聞、謠言、聲明"
         ],
         "notation": "言伝(ことづて)"
     },
     {
         "name": "funshutsu",
         "trans": [
-            "喷出、喷出、喷出、喷出、渗出"
+            "噴出、灑出"
         ],
         "notation": "噴出(ふんしゅつ)"
     },
     {
         "name": "mashita",
         "trans": [
-            "正下方，正下方"
+            "正下方"
         ],
         "notation": "真下(ました)"
     },
     {
         "name": "shibou",
         "trans": [
-            "愿望、欲望、野心"
+            "願望、慾望、野心"
         ],
         "notation": "志望(しぼう)"
     },
     {
         "name": "keitai",
         "trans": [
-            "形式， 形状， 数字"
+            "形式、形狀"
         ],
         "notation": "形態(けいたい)"
     },
     {
         "name": "kanau",
         "trans": [
-            "成真（愿望）"
+            "成真（願望）"
         ],
         "notation": "叶(かな)う"
     },
     {
         "name": "kurushimeru",
         "trans": [
-            "折磨，骚扰，施加痛苦"
+            "折磨、騷擾、施加痛苦"
         ],
         "notation": "苦(くる)しめる"
     },

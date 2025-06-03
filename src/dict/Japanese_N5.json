@@ -2,7 +2,7 @@
     {
         "name": "donata",
         "trans": [
-            "谁"
+            "誰"
         ],
         "notation": "どなた"
     },
@@ -23,7 +23,7 @@
     {
         "name": "bangou",
         "trans": [
-            "数"
+            "數"
         ],
         "notation": "番号(ばんごう)"
     },
@@ -37,7 +37,7 @@
     {
         "name": "shio",
         "trans": [
-            "盐"
+            "鹽"
         ],
         "notation": "塩(しお)"
     },
@@ -51,14 +51,14 @@
     {
         "name": "furui",
         "trans": [
-            "旧（不用于人）"
+            "舊（不用於人）"
         ],
         "notation": "古(ふる)い"
     },
     {
         "name": "resutoran",
         "trans": [
-            "餐厅"
+            "餐廳"
         ],
         "notation": "レストラン"
     },
@@ -72,21 +72,21 @@
     {
         "name": "tsuyoi",
         "trans": [
-            "强"
+            "強"
         ],
         "notation": "強(つよ)い"
     },
     {
         "name": "yobu",
         "trans": [
-            "呼唤，邀请"
+            "呼喚、邀請"
         ],
         "notation": "呼(よ)ぶ"
     },
     {
         "name": "kakekakaru",
         "trans": [
-            "花费时间或金钱"
+            "花費時間或金錢"
         ],
         "notation": "掛(かけ)かかる"
     },
@@ -100,14 +100,14 @@
     {
         "name": "atama",
         "trans": [
-            "头"
+            "頭"
         ],
         "notation": "頭(あたま)"
     },
     {
         "name": "doko",
         "trans": [
-            "哪里"
+            "哪裡"
         ],
         "notation": "どこ"
     },
@@ -128,21 +128,21 @@
     {
         "name": "maitsuki",
         "trans": [
-            "每个月"
+            "每個月"
         ],
         "notation": "毎月(まいつき)"
     },
     {
         "name": "taisei",
         "trans": [
-            "人数众多"
+            "人數眾多"
         ],
         "notation": "大勢(たいせい)"
     },
     {
         "name": "marui/marui",
         "trans": [
-            "圆形，圆形"
+            "圓形"
         ],
         "notation": "丸(まる)い/円(まる)い"
     },
@@ -156,7 +156,7 @@
     {
         "name": "daisuki",
         "trans": [
-            "非常讨人喜欢"
+            "非常討人喜歡"
         ],
         "notation": "大好(だいす)き"
     },
@@ -170,14 +170,14 @@
     {
         "name": "watashi",
         "trans": [
-            "（谦虚）我，我自己"
+            "（謙虛）我"
         ],
         "notation": "私(わたし)"
     },
     {
         "name": "mono",
         "trans": [
-            "东西"
+            "東西"
         ],
         "notation": "物(もの)"
     },
@@ -191,21 +191,21 @@
     {
         "name": "tori",
         "trans": [
-            "鸟"
+            "鳥"
         ],
         "notation": "鳥(とり)"
     },
     {
         "name": "ageru",
         "trans": [
-            "给"
+            "給"
         ],
         "notation": "上(あ)げる"
     },
     {
         "name": "taihen",
         "trans": [
-            "困难的局面"
+            "困難的局面"
         ],
         "notation": "大変(たいへん)"
     },
@@ -219,7 +219,7 @@
     {
         "name": "gaikoku",
         "trans": [
-            "异国"
+            "外國、異國"
         ],
         "notation": "外国(がいこく)"
     },
@@ -240,28 +240,28 @@
     {
         "name": "oriru",
         "trans": [
-            "下车，下山"
+            "下車、下山"
         ],
         "notation": "降(お)りる"
     },
     {
         "name": "ushiro",
         "trans": [
-            "后"
+            "後"
         ],
         "notation": "後(うし)ろ"
     },
     {
         "name": "tanomu",
         "trans": [
-            "询问"
+            "詢問"
         ],
         "notation": "頼(たの)む"
     },
     {
         "name": "atsui",
         "trans": [
-            "摸起来很热"
+            "燙"
         ],
         "notation": "熱(あつ)い"
     },
@@ -275,7 +275,7 @@
     {
         "name": "depaato",
         "trans": [
-            "百货公司"
+            "百貨公司"
         ],
         "notation": "デパート"
     },
@@ -310,56 +310,56 @@
     {
         "name": "takushii",
         "trans": [
-            "出租车"
+            "計程車"
         ],
         "notation": "タクシー"
     },
     {
         "name": "yuubinkyoku",
         "trans": [
-            "邮局"
+            "郵局"
         ],
         "notation": "郵便(ゆうびん)局(きょく)"
     },
     {
         "name": "kami",
         "trans": [
-            "纸"
+            "紙"
         ],
         "notation": "紙(かみ)"
     },
     {
         "name": "tsutomeru",
         "trans": [
-            "为某人工作"
+            "為某人工作"
         ],
         "notation": "勤(つと)める"
     },
     {
         "name": "hashiru",
         "trans": [
-            "运行"
+            "跑步"
         ],
         "notation": "走(はし)る"
     },
     {
         "name": "teepu",
         "trans": [
-            "磁带"
+            "紙帶、膠帶、錄音帶"
         ],
         "notation": "テープ"
     },
     {
         "name": "uwagi",
         "trans": [
-            "夹克"
+            "上衣、外衣"
         ],
         "notation": "上着(うわぎ)"
     },
     {
         "name": "miseru",
         "trans": [
-            "显示"
+            "顯示"
         ],
         "notation": "見(み)せる"
     },
@@ -387,7 +387,7 @@
     {
         "name": "osara",
         "trans": [
-            "盘子、盘子"
+            "盤子"
         ],
         "notation": "お皿(さら)"
     },
@@ -401,42 +401,42 @@
     {
         "name": "asatte",
         "trans": [
-            "后天"
+            "後天"
         ],
         "notation": "あさって"
     },
     {
         "name": "kagi",
         "trans": [
-            "钥匙"
+            "鑰匙"
         ],
         "notation": "鍵(かぎ)"
     },
     {
         "name": "ojunmawarisan",
         "trans": [
-            "警察的友好术语"
+            "警察"
         ],
         "notation": "お巡(じゅん)まわりさん"
     },
     {
         "name": "jitensha",
         "trans": [
-            "自行车"
+            "自行車"
         ],
         "notation": "自転車(じてんしゃ)"
     },
     {
         "name": "kumori",
         "trans": [
-            "多云天气"
+            "多雲天氣"
         ],
         "notation": "曇(くも)り"
     },
     {
         "name": "kawaii",
         "trans": [
-            "可爱"
+            "可愛"
         ],
         "notation": "可愛(かわい)い"
     },
@@ -450,7 +450,7 @@
     {
         "name": "kyoushitsu",
         "trans": [
-            "课堂"
+            "教室"
         ],
         "notation": "教室(きょうしつ)"
     },
@@ -471,21 +471,21 @@
     {
         "name": "dasu",
         "trans": [
-            "放出"
+            "拿出、發出"
         ],
         "notation": "出(だ)す"
     },
     {
         "name": "konna",
         "trans": [
-            "这样"
+            "這樣"
         ],
         "notation": "こんな"
     },
     {
         "name": "hanbun",
         "trans": [
-            "半分钟"
+            "半分鐘"
         ],
         "notation": "半分(はんぶん)"
     },
@@ -506,14 +506,14 @@
     {
         "name": "kaku",
         "trans": [
-            "写"
+            "寫"
         ],
         "notation": "書(か)く"
     },
     {
         "name": "ryuugakusei",
         "trans": [
-            "海外学生"
+            "留學生"
         ],
         "notation": "留学生(りゅうがくせい)"
     },
@@ -534,7 +534,7 @@
     {
         "name": "bataa",
         "trans": [
-            "黄油"
+            "奶油"
         ],
         "notation": "バター"
     },
@@ -555,21 +555,21 @@
     {
         "name": "fouku",
         "trans": [
-            "叉"
+            "叉子"
         ],
         "notation": "フォーク"
     },
     {
         "name": "toru",
         "trans": [
-            "拿东西"
+            "拿東西"
         ],
         "notation": "取(と)る"
     },
     {
         "name": "saa",
         "trans": [
-            "井。。。"
+            "表示勸誘、催促，不能明確回答"
         ],
         "notation": "さあ"
     },

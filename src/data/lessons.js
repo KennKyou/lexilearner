@@ -3,12 +3,12 @@ import PET from '../dict/PET.json'
 import Oxford from '../dict/Oxford.json'
 import TOEIC from '../dict/TOEIC.json'
 import SAT from '../dict/SAT.json'
-import JapaneseBasic from '../dict/Japanese_basic.json'
-import JapaneseN5 from '../dict/Japanese_N5.json'
+import JapaneseBasic from '../dict/Japanese_basic.json' // 翻譯完畢
+import JapaneseN5 from '../dict/Japanese_N5.json' // 翻譯至 572 行
 import JapaneseN4 from '../dict/Japanese_N4.json'
 import JapaneseN3 from '../dict/Japanese_N3.json'
 import JapaneseN2 from '../dict/Japanese_N2.json'
-import JapaneseN1 from '../dict/Japanese_N1.json'
+import JapaneseN1 from '../dict/Japanese_N1.json' // 翻譯至 523 行
 
 // 將單字按照每章20個進行分組
 const createChapters = (words) => {
@@ -83,44 +83,44 @@ export const dictionaries = {
     totalWords: JapaneseBasic.length,
     chapters: createChapters(JapaneseBasic)
   },
-  JapaneseN5: {
-    name: 'N5',
-    description: 'N5',
-    tag: "JLPT",
-    cate: "Japanese",
-    totalWords: JapaneseN5.length,
-    chapters: createChapters(JapaneseN5)
-  },
-  JapaneseN4: {
-    name: 'N4',
-    description: 'N4',
-    tag: "JLPT",
-    cate: "Japanese",
-    totalWords: JapaneseN4.length,
-    chapters: createChapters(JapaneseN4)
-  },
-  JapaneseN3: {
-    name: 'N3',
-    description: 'N3',
-    tag: "JLPT",
-    cate: "Japanese",
-    totalWords: JapaneseN3.length,
-    chapters: createChapters(JapaneseN3)
-  },
-  JapaneseN2: {
-    name: 'N2',
-    description: 'N2',
-    tag: "JLPT",
-    cate: "Japanese",
-    totalWords: JapaneseN2.length,
-    chapters: createChapters(JapaneseN2)
-  },
-  JapaneseN1: {
-    name: 'N1',
-    description: 'N1',
-    tag: "JLPT",
-    cate: "Japanese",
-    totalWords: JapaneseN1.length,
-    chapters: createChapters(JapaneseN1)
-  },
+  // JapaneseN5: {
+  //   name: 'N5',
+  //   description: 'N5',
+  //   tag: "JLPT",
+  //   cate: "Japanese",
+  //   totalWords: JapaneseN5.length,
+  //   chapters: createChapters(JapaneseN5)
+  // },
+  // JapaneseN4: {
+  //   name: 'N4',
+  //   description: 'N4',
+  //   tag: "JLPT",
+  //   cate: "Japanese",
+  //   totalWords: JapaneseN4.length,
+  //   chapters: createChapters(JapaneseN4)
+  // },
+  // JapaneseN3: {
+  //   name: 'N3',
+  //   description: 'N3',
+  //   tag: "JLPT",
+  //   cate: "Japanese",
+  //   totalWords: JapaneseN3.length,
+  //   chapters: createChapters(JapaneseN3)
+  // },
+  // JapaneseN2: {
+  //   name: 'N2',
+  //   description: 'N2',
+  //   tag: "JLPT",
+  //   cate: "Japanese",
+  //   totalWords: JapaneseN2.length,
+  //   chapters: createChapters(JapaneseN2)
+  // },
+  // JapaneseN1: {
+  //   name: 'N1',
+  //   description: 'N1',
+  //   tag: "JLPT",
+  //   cate: "Japanese",
+  //   totalWords: JapaneseN1.length,
+  //   chapters: createChapters(JapaneseN1)
+  // },
 } 
