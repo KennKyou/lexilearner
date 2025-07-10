@@ -21,6 +21,25 @@
 
     <main class="settings-content">
       <div class="settings-section">
+        <h3>學習設定</h3>
+        <div class="settings-item">
+          <div class="setting-info">
+            <h4>忽略大小寫</h4>
+            <p>開啟後，單字輸入時將不區分大小寫（例如：CD player 可以輸入成 cd player）</p>
+          </div>
+          <div class="toggle-container">
+            <label class="toggle-switch">
+              <input 
+                type="checkbox" 
+                v-model="settingsStore.ignoreCase"
+              >
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
         <h3>資料備份</h3>
         <div class="backup-description">
           <p>本應用程式的學習資料（包含學習進度、錯字本、統計和主題設定）是儲存在您的瀏覽器本地儲存空間中。為了確保您的學習記錄不會因為以下情況而遺失：</p>
@@ -80,10 +99,12 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useExportDataStore } from '../stores/exportData'
 import { useThemeStore } from '../stores/theme'
+import { useSettingsStore } from '../stores/settings'
 
 const router = useRouter()
 const exportDataStore = useExportDataStore()
 const themeStore = useThemeStore()
+const settingsStore = useSettingsStore()
 const fileInput = ref(null)
 const importMessage = ref(null)
 
@@ -331,5 +352,81 @@ const handleImport = async (event) => {
 .warning-message p {
   margin: 0;
   color: var(--text);
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+}
+
+.setting-info h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.setting-info p {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.toggle-container {
+  flex-shrink: 0;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider:hover {
+  opacity: 0.8;
 }
 </style> 

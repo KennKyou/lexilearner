@@ -62,8 +62,8 @@
             v-for="(char, index) in currentWord.text"
             :key="index"
             :class="{
-              'correct': index < userInput.length && char === userInput[index],
-              'error': index < userInput.length && char !== userInput[index],
+              'correct': index < userInput.length && (settingsStore.ignoreCase ? char.toLowerCase() === userInput[index].toLowerCase() : char === userInput[index]),
+              'error': index < userInput.length && (settingsStore.ignoreCase ? char.toLowerCase() !== userInput[index].toLowerCase() : char !== userInput[index]),
               'current': index === userInput.length,
               'upcoming': index > userInput.length,
               'space': char === ' ',
@@ -132,6 +132,7 @@ import { useStatsStore } from '../stores/counter'
 import { useProgressStore } from '../stores/progress'
 import { useErrorStatsStore } from '../stores/errorStats'
 import { useThemeStore } from '../stores/theme'
+import { useSettingsStore } from '../stores/settings'
 
 const route = useRoute()
 const router = useRouter()
@@ -167,6 +168,7 @@ const statsStore = useStatsStore()
 const progressStore = useProgressStore()
 const errorStatsStore = useErrorStatsStore()
 const themeStore = useThemeStore()
+const settingsStore = useSettingsStore()
 
 const accuracy = computed(() => statsStore.accuracy)
 const wpm = computed(() => statsStore.wpm)
@@ -209,7 +211,11 @@ const handleKeyDown = (event) => {
     if (currentInput.length < targetWord.length && targetWord[currentInput.length] === ' ') {
       userInput.value += ' '
       statsStore.incrementInput(true)
-      if (userInput.value === targetWord) {
+      const isWordComplete = settingsStore.ignoreCase ? 
+        userInput.value.toLowerCase() === targetWord.toLowerCase() : 
+        userInput.value === targetWord
+      
+      if (isWordComplete) {
         setTimeout(() => { nextWord() }, 300)
       }
     } else {
@@ -229,7 +235,11 @@ const handleKeyDown = (event) => {
     if (currentInput.length < targetWord.length && targetWord[currentInput.length] === '-') {
       userInput.value += '-'
       statsStore.incrementInput(true)
-      if (userInput.value === targetWord) {
+      const isWordComplete = settingsStore.ignoreCase ? 
+        userInput.value.toLowerCase() === targetWord.toLowerCase() : 
+        userInput.value === targetWord
+      
+      if (isWordComplete) {
         setTimeout(() => { nextWord() }, 300)
       }
     } else {
@@ -250,15 +260,22 @@ const handleKeyDown = (event) => {
   const targetWord = currentWord.value.text
 
   if (currentInput.length < targetWord.length) {
-    if (key === targetWord[currentInput.length]) {
+    const expectedChar = targetWord[currentInput.length]
+    const isMatch = settingsStore.ignoreCase ? key.toLowerCase() === expectedChar.toLowerCase() : key === expectedChar
+    
+    if (isMatch) {
       userInput.value += key
       statsStore.incrementInput(true)
-      if (userInput.value === targetWord) {
+      const isWordComplete = settingsStore.ignoreCase ? 
+        userInput.value.toLowerCase() === targetWord.toLowerCase() : 
+        userInput.value === targetWord
+      
+      if (isWordComplete) {
         setTimeout(() => { nextWord() }, 300)
       }
     } else {
       statsStore.incrementInput(false)
-      errorStatsStore.recordError(targetWord[currentInput.length])
+      errorStatsStore.recordError(expectedChar)
       addToErrorBook()
       userInput.value = ''
       isError.value = true
