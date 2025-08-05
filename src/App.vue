@@ -3,8 +3,10 @@ import { RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import Footer from './components/Footer.vue'
 import { useThemeStore } from './stores/theme'
+import { useDeviceDetection } from './composables/useDeviceDetection'
 
 const themeStore = useThemeStore()
+const { isSmallScreen } = useDeviceDetection()
 
 onMounted(() => {
   themeStore.initTheme()
@@ -14,7 +16,7 @@ onMounted(() => {
 <template>
   <div :data-theme="themeStore.theme" class="app-container">
     <RouterView />
-    <Footer />
+    <Footer v-if="!isSmallScreen" />
   </div>
 </template>
 

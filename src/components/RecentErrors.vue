@@ -532,23 +532,5 @@ const scrollToDictionaries = () => {
   font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
-  .errors-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
-  }
-  
-  .title-group {
-    justify-content: center;
-  }
-  
-  .view-all-btn {
-    align-self: center;
-  }
-}
+/* 移動端會顯示介紹頁面，因此移除移動端樣式 */
 </style>

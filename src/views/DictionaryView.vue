@@ -1,5 +1,9 @@
 <template>
-  <div class="dashboard-view">
+  <!-- 小螢幕介紹頁面 -->
+  <MobileIntro v-if="isSmallScreen" />
+  
+  <!-- 大螢幕儀表板 -->
+  <div v-else class="dashboard-view">
     <!-- 儀表板標題 -->
     <div class="dashboard-header">
       <h1 class="dashboard-title">學習儀表板</h1>
@@ -112,9 +116,11 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { dictionaries } from '../data/lessons'
 import { useProgressStore } from '../stores/progress'
+import { useDeviceDetection } from '../composables/useDeviceDetection'
 import DashboardStats from '../components/DashboardStats.vue'
 import QuickActions from '../components/QuickActions.vue'
 import RecentErrors from '../components/RecentErrors.vue'
+import MobileIntro from '../components/MobileIntro.vue'
 
 const showModal = ref(false)
 const selectedDictKey = ref('')
@@ -122,6 +128,7 @@ const selectedCategory = ref('')
 const selectedTag = ref('')
 const router = useRouter()
 const progressStore = useProgressStore()
+const { isSmallScreen } = useDeviceDetection()
 
 // 獲取所有分類
 const categories = computed(() => {
@@ -464,7 +471,7 @@ const handleCategoryChange = (category) => {
 }
 
 .chapter-btn.completed {
-  background: var(--primary-light, rgba(var(--primary-rgb), 0.1));
+  background: rgba(91, 109, 250, 0.1);
   color: var(--primary);
   border: 1px solid var(--primary);
 }
