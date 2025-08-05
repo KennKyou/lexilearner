@@ -232,6 +232,9 @@ const handleImport = async (event) => {
   width: 100%;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .settings-content::-webkit-scrollbar {
@@ -255,6 +258,10 @@ const handleImport = async (event) => {
   padding: 1.5rem;
   background: var(--bg);
   border-radius: var(--border-radius);
+}
+
+.backup-section:last-child {
+  margin-bottom: 0;
 }
 
 .section-description {
@@ -361,7 +368,6 @@ const handleImport = async (event) => {
   padding: 1.5rem;
   background: var(--bg);
   border-radius: var(--border-radius);
-  margin-bottom: 1.5rem;
 }
 
 .setting-info h4 {

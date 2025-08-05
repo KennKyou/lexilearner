@@ -1,59 +1,78 @@
 <template>
-  <div class="dictionary-view">
-    <!-- 分類選擇器 -->
-    <div class="category-selector">
-      <button
-        v-for="category in categories"
-        :key="category"
-        class="category-btn"
-        :class="{ active: selectedCategory === category }"
-        @click="handleCategoryChange(category)"
-      >
-        {{ category }}
-      </button>
+  <div class="dashboard-view">
+    <!-- 儀表板標題 -->
+    <div class="dashboard-header">
+      <h1 class="dashboard-title">學習儀表板</h1>
+      <p class="dashboard-subtitle">歡迎回來！繼續您的學習之旅</p>
     </div>
 
-    <!-- 標籤選擇器 -->
-    <div class="tag-selector" v-if="selectedCategory">
-      <button
-        class="tag-btn"
-        :class="{ active: selectedTag === '' }"
-        @click="selectedTag = ''"
-      >
-        全部
-      </button>
-      <button
-        v-for="tag in categoryTags"
-        :key="tag"
-        class="tag-btn"
-        :class="{ active: selectedTag === tag }"
-        @click="selectedTag = tag"
-      >
-        {{ tag }}
-      </button>
-    </div>
+    <!-- 統計概覽 -->
+    <!--<DashboardStats />-->
+    
+    <!-- 快捷功能 -->
+    <QuickActions />
+    
+    <!-- 最近錯字 -->
+    <!--<RecentErrors />-->
+    
+    <!-- 字典選擇區域 -->
+    <div class="dictionary-section">
+      <h3 class="section-title">選擇練習字典</h3>
+      
+      <!-- 分類選擇器 -->
+      <div class="category-selector">
+        <button
+          v-for="category in categories"
+          :key="category"
+          class="category-btn"
+          :class="{ active: selectedCategory === category }"
+          @click="handleCategoryChange(category)"
+        >
+          {{ category }}
+        </button>
+      </div>
 
-    <!-- 字典列表 -->
-    <div class="dictionary-list">
-      <div
-        v-for="(dict, key) in filteredDictionaries"
-        :key="key"
-        class="dictionary-card"
-        @click="openModal(key)"
-      >
-        <div class="dict-title">{{ dict.name }}</div>
-        <!-- <div class="dict-desc">{{ dict.description }}</div> -->
-        <div class="dict-tag">{{ dict.tag }}</div>
-        <div class="dict-count">{{ dict.totalWords }} 詞</div>
-        <div class="progress-container">
-          <div class="progress-bar">
-            <div 
-              class="progress-fill"
-              :style="{ width: `${progressStore.getDictProgress(key, dict.chapters.length).percentage}%` }"
-            ></div>
-          </div>
-          <div class="progress-text">
-            {{ progressStore.getDictProgress(key, dict.chapters.length).completed }}/{{ dict.chapters.length }} 章節
+      <!-- 標籤選擇器 -->
+      <div class="tag-selector" v-if="selectedCategory">
+        <button
+          class="tag-btn"
+          :class="{ active: selectedTag === '' }"
+          @click="selectedTag = ''"
+        >
+          全部
+        </button>
+        <button
+          v-for="tag in categoryTags"
+          :key="tag"
+          class="tag-btn"
+          :class="{ active: selectedTag === tag }"
+          @click="selectedTag = tag"
+        >
+          {{ tag }}
+        </button>
+      </div>
+
+      <!-- 字典列表 -->
+      <div class="dictionary-list">
+        <div
+          v-for="(dict, key) in filteredDictionaries"
+          :key="key"
+          class="dictionary-card"
+          @click="openModal(key)"
+        >
+          <div class="dict-title">{{ dict.name }}</div>
+          <div class="dict-tag">{{ dict.tag }}</div>
+          <div class="dict-count">{{ dict.totalWords }} 詞</div>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div 
+                class="progress-fill"
+                :style="{ width: `${progressStore.getDictProgress(key, dict.chapters.length).percentage}%` }"
+              ></div>
+            </div>
+            <div class="progress-text">
+              {{ progressStore.getDictProgress(key, dict.chapters.length).completed }}/{{ dict.chapters.length }} 章節
+            </div>
           </div>
         </div>
       </div>
@@ -93,6 +112,9 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { dictionaries } from '../data/lessons'
 import { useProgressStore } from '../stores/progress'
+import DashboardStats from '../components/DashboardStats.vue'
+import QuickActions from '../components/QuickActions.vue'
+import RecentErrors from '../components/RecentErrors.vue'
 
 const showModal = ref(false)
 const selectedDictKey = ref('')
@@ -159,13 +181,41 @@ const handleCategoryChange = (category) => {
 </script>
 
 <style scoped>
-.dictionary-view {
+.dashboard-view {
   min-height: 100vh;
   background: var(--bg);
-  padding: 3rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.dictionary-section {
+  margin-top: 2rem;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 1.5rem;
 }
 
 .category-selector {
@@ -174,8 +224,6 @@ const handleCategoryChange = (category) => {
   gap: 1rem;
   margin-bottom: 1.5rem;
   width: 100%;
-  max-width: 1400px;
-  padding: 0 2rem;
 }
 
 .category-btn {
@@ -201,8 +249,6 @@ const handleCategoryChange = (category) => {
   gap: 0.8rem;
   margin-bottom: 2rem;
   width: 100%;
-  max-width: 1400px;
-  padding: 0 2rem;
 }
 
 .tag-btn {
@@ -223,11 +269,9 @@ const handleCategoryChange = (category) => {
 
 .dictionary-list {
   width: 100%;
-  max-width: 1400px;
-  padding: 0 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  gap: 1.5rem;
   margin-top: 1rem;
 }
 
@@ -430,40 +474,22 @@ const handleCategoryChange = (category) => {
   font-weight: bold;
 }
 
-@media (max-width: 1440px) {
-  .category-selector,
-  .tag-selector,
-  .dictionary-list {
-    max-width: 1200px;
+@media (max-width: 768px) {
+  .dashboard-view {
+    padding: 1rem;
   }
-}
-
-@media (max-width: 1240px) {
-  .category-selector,
-  .tag-selector,
-  .dictionary-list {
-    max-width: 900px;
-  }
-}
-
-@media (max-width: 940px) {
-  .category-selector,
-  .tag-selector,
-  .dictionary-list {
-    max-width: 600px;
-  }
-}
-
-@media (max-width: 640px) {
-  .category-selector,
-  .tag-selector,
-  .dictionary-list {
-    max-width: 100%;
-    padding: 0 1rem;
+  
+  .dashboard-title {
+    font-size: 2rem;
   }
   
   .dictionary-list {
     grid-template-columns: 1fr;
+  }
+  
+  .category-selector,
+  .tag-selector {
+    justify-content: center;
   }
 }
 </style> 
